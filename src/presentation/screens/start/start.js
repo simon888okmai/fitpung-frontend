@@ -12,7 +12,7 @@ export default function Start({ navigation }) {
             <View className="px-[24px] mb-12 gap-y-4">
                 <Pressable
                     className="bg-primary w-full py-4 items-center rounded-full shadow-lg shadow-primary/50"
-                    onPress={() => navigation.navigate('Login')}
+                    onPress={() => navigation.navigate('Register')}
                 >
                     <Text className="text-xl font-line-bold text-black">Start now</Text>
                 </Pressable>

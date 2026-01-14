@@ -4,8 +4,10 @@ import { useFonts } from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import Start from "./presentation/screens/start";
-import Login from "./presentation/screens/login";
+import Start from "./presentation/screens/start/start";
+import Login from "./presentation/screens/start/login";
+import Register from "./presentation/screens/start/register";
+import PersernalInfo from "./presentation/screens/start/persernalinfo";
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +31,8 @@ export default function App() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Start" component={Start} />
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="PersernalInfo" component={PersernalInfo} />
       </Stack.Navigator>
     </NavigationContainer>
   );

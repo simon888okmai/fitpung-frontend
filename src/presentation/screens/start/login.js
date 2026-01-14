@@ -1,7 +1,7 @@
 import { Text, TextInput, View, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function Login() {
+export default function Login({ navigation }) {
     return (
         <SafeAreaView className="flex-1 bg-color justify-center">
             <View className="px-[31px]">
@@ -29,6 +29,7 @@ export default function Login() {
                 </Pressable>
                 <Pressable
                     className="mt-[25px]"
+                    onPress={() => navigation.navigate('Register')}
                 >
                     <Text className="text-[16px] text-white text-center font-line-bold">Don't have an account?</Text>
                 </Pressable>
