@@ -8,6 +8,7 @@ import Start from "./presentation/screens/start/start";
 import Login from "./presentation/screens/start/login";
 import Register from "./presentation/screens/start/register";
 import PersernalInfo from "./presentation/screens/start/persernalinfo";
+import Homepage from "./presentation/screens/Homepage/homepage";
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +34,7 @@ export default function App() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="PersernalInfo" component={PersernalInfo} />
+        <Stack.Screen name="Homepage" component={Homepage} />
       </Stack.Navigator>
     </NavigationContainer>
   );
