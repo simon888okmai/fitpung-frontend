@@ -3,7 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import NextButton from "../../components/nextButton";
 
-const Register = ({ navigation }) => {
+const register = ({ navigation }) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -71,4 +71,4 @@ const Register = ({ navigation }) => {
         </SafeAreaView>
     )
 }
-export default Register
+export default register

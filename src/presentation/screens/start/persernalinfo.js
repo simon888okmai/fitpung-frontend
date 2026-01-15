@@ -3,6 +3,7 @@ import { Pressable, Text, TextInput, View, Platform, Modal, KeyboardAvoidingView
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import { useState } from "react";
+import { registerUser } from "../../../services/auth";
 
 
 const PersernalInfo = ({ navigation, route }) => {
@@ -51,22 +52,34 @@ const PersernalInfo = ({ navigation, route }) => {
         toggleGenderPicker();
     };
 
-    const handleRegisterSubmit = () => {
+    const handleRegisterSubmit = async () => {
         if (!name || !dateOfBirth || !gender || !height || !weight) {
             Alert.alert('Please fill in all fields');
             return;
         }
+
+        const year = date.getFullYear(); // ได้ 2026 (ค.ศ.) อัตโนมัติ
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // ได้ 01
+        const day = String(date.getDate()).padStart(2, '0'); // ได้ 15
+        const formattedDateForDB = `${year}-${month}-${day}`;
+
         const finalData = {
             username,
             password,
             email,
             name,
-            date_of_birth: dateOfBirth,
+            date_of_birth: formattedDateForDB,
             gender,
-            height,
-            weight
+            height: parseFloat(height),
+            weight: parseFloat(weight)
         };
-        console.log(finalData);
+        const result = await registerUser(finalData);
+        if (result.ok) {
+            console.log("Success : ", result.data);
+            Alert.alert('Success', 'User registered successfully');
+        } else {
+            Alert.alert("Register Failed", result.data.message);
+        }
     }
 
     return (
