@@ -1,7 +1,24 @@
 import { Text, TextInput, View, Pressable, KeyboardAvoidingView, ScrollView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useState } from "react";
+import { loginUser } from "../../services/auth";
 
 export default function Login({ navigation }) {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleLogin = () => {
+        if (!username || !password) {
+            alert('Please fill in all fields');
+            return;
+        } const result = loginUser({ username, password });
+
+        if (result.ok) {
+            console.log(result.data.user);
+        } else {
+            alert(result.data.message);
+        }
+    }
     return (
         <SafeAreaView className="flex-1 bg-color">
             <KeyboardAvoidingView
@@ -20,11 +37,15 @@ export default function Login({ navigation }) {
                                 placeholder="Username"
                                 placeholderTextColor="#A2A2A2"
                                 className="bg-white h-[53] w-[331px] rounded-[16px] text-black p-[16px] font-line-bold"
+                                value={username}
+                                onChangeText={setUsername}
                             />
                             <TextInput
                                 placeholder="Password"
                                 placeholderTextColor="#A2A2A2"
                                 className="bg-white h-[53] w-[331px] rounded-[16px] mt-[20px] text-black p-[16px] font-line-bold"
+                                value={password}
+                                onChangeText={setPassword}
                             />
                         </View>
                         <Pressable className="mt-[13px]">
