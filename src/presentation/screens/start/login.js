@@ -1,9 +1,11 @@
 import { Text, TextInput, View, Pressable, KeyboardAvoidingView, ScrollView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState } from "react";
+import React, { useContext, useState } from "react";
 import { loginUser } from "../../../services/auth";
+import { AuthContext } from "../../../context/AuthContext";
 
 export default function Login({ navigation }) {
+    const { login } = useContext(AuthContext);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -14,7 +16,7 @@ export default function Login({ navigation }) {
         } const result = await loginUser({ username, password });
 
         if (result.ok) {
-            console.log(result.data.user);
+            login(result.data.token, result.data.user);
         } else {
             alert("Login Failed");
         }

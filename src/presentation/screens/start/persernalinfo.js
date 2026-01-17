@@ -2,7 +2,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Pressable, Text, TextInput, View, Platform, Modal, KeyboardAvoidingView, ScrollView, Alert } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
-import { useState } from "react";
+import React, { useContext, useState } from "react";
 import { registerUser } from "../../../services/auth";
 
 
@@ -10,6 +10,7 @@ const PersernalInfo = ({ navigation, route }) => {
 
     const { username, password, email } = route.params;
 
+    const { login } = useContext(AuthContext);
     const [date, setDate] = useState(new Date());
     const [dateOfBirth, setDateOfBirth] = useState("");
     const [showPicker, setShowPicker] = useState(false);
@@ -76,7 +77,12 @@ const PersernalInfo = ({ navigation, route }) => {
         const result = await registerUser(finalData);
         if (result.ok) {
             console.log("Success : ", result.data);
-            Alert.alert('Success', 'User registered successfully');
+            if (result.data) {
+                login(result.data.token, result.data.user);
+            } else {
+                Alert.alert("Success", "Registered successfully! Please Login.");
+                navigation.navigate('Login');
+            }
         } else {
             Alert.alert("Register Failed", result.data.message);
         }
