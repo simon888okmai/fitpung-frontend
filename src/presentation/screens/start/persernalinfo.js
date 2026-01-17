@@ -1,17 +1,27 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Pressable, Text, TextInput, View, Platform, Modal, KeyboardAvoidingView, ScrollView } from "react-native";
+import { Pressable, Text, TextInput, View, Platform, Modal, KeyboardAvoidingView, ScrollView, Alert } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
-import { useState } from "react";
-import NextButton from "../../components/nextButton";
+import React, { useContext, useState } from "react";
+import { registerUser } from "../../../services/auth";
+import { AuthContext } from "../../../context/AuthContext";
 
-const PersernalInfo = ({ navigation }) => {
+
+const PersernalInfo = ({ navigation, route }) => {
+
+    const { username, password, email } = route.params;
+
+    const { login } = useContext(AuthContext);
     const [date, setDate] = useState(new Date());
     const [dateOfBirth, setDateOfBirth] = useState("");
     const [showPicker, setShowPicker] = useState(false);
     const [gender, setGender] = useState("");
     const [selectedGender, setSelectedGender] = useState("Male");
     const [showGenderPicker, setShowGenderPicker] = useState(false);
+
+    const [name, setName] = useState("");
+    const [height, setHeight] = useState("");
+    const [weight, setWeight] = useState("");
 
     const toggleDatePicker = () => {
         setShowPicker(!showPicker);
@@ -43,6 +53,42 @@ const PersernalInfo = ({ navigation }) => {
         setGender(selectedGender);
         toggleGenderPicker();
     };
+
+    const handleRegisterSubmit = async () => {
+        if (!name || !dateOfBirth || !gender || !height || !weight) {
+            Alert.alert('Please fill in all fields');
+            return;
+        }
+
+        const year = date.getFullYear(); // ได้ 2026 (ค.ศ.) อัตโนมัติ
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // ได้ 01
+        const day = String(date.getDate()).padStart(2, '0'); // ได้ 15
+        const formattedDateForDB = `${year}-${month}-${day}`;
+
+        const finalData = {
+            username,
+            password,
+            email,
+            name,
+            date_of_birth: formattedDateForDB,
+            gender,
+            height: parseFloat(height),
+            weight: parseFloat(weight)
+        };
+        const result = await registerUser(finalData);
+        if (result.ok) {
+            console.log("Success : ", result.data);
+            if (result.data) {
+                login(result.data.token, result.data.user);
+            } else {
+                Alert.alert("Success", "Registered successfully! Please Login.");
+                navigation.navigate('Login');
+            }
+        } else {
+            Alert.alert("Register Failed", result.data.message);
+        }
+    }
+
     return (
         <SafeAreaView className="flex-1 bg-color">
             <KeyboardAvoidingView
@@ -56,7 +102,12 @@ const PersernalInfo = ({ navigation }) => {
                     <View className="px-[31px]">
                         <Text className="text-[48px] text-primary font-line-xbold">Tell us {'\n'}about you</Text >
                         <View className="mt-[32px] gap-y-[20px]">
-                            <TextInput placeholder="Name" placeholderTextColor="#A2A2A2" className="bg-white h-[53] w-[331px] rounded-[16px] text-black p-[16px] font-line-bold" />
+                            <TextInput
+                                placeholder="Name"
+                                placeholderTextColor="#A2A2A2"
+                                value={name}
+                                onChangeText={setName}
+                                className="bg-white h-[53] w-[331px] rounded-[16px] text-black p-[16px] font-line-bold" />
                             {/* Date of Birth */}
                             <View>
                                 <Pressable onPress={toggleDatePicker}>
@@ -150,17 +201,32 @@ const PersernalInfo = ({ navigation }) => {
                             </View>
                             <View className="flex-row items-center justify-between">
                                 <View className="flex-row items-center gap-x-[16px]">
-                                    <TextInput placeholder="Height" placeholderTextColor="#A2A2A2" keyboardType="numeric" maxLength={3} selectionColor="black" className="bg-white rounded-[16px] text-black w-[100px] py-[16px] font-line-bold text-center" />
+                                    <TextInput
+                                        placeholder="Height"
+                                        placeholderTextColor="#A2A2A2"
+                                        keyboardType="numeric"
+                                        value={height}
+                                        onChangeText={setHeight}
+                                        maxLength={3}
+                                        selectionColor="black"
+                                        className="bg-white rounded-[16px] text-black w-[100px] py-[16px] font-line-bold text-center" />
                                     <Text className="font-line-bold text-primary text-[16px]">CM.</Text>
                                 </View>
                                 <View className="flex-row items-center gap-x-[16px]">
-                                    <TextInput placeholder="Weight" placeholderTextColor="#A2A2A2" keyboardType="numeric" maxLength={3} selectionColor="black" className="bg-white rounded-[16px] text-black w-[100px] py-[16px] font-line-bold text-center" />
+                                    <TextInput placeholder="Weight"
+                                        placeholderTextColor="#A2A2A2"
+                                        keyboardType="numeric"
+                                        maxLength={3}
+                                        selectionColor="black"
+                                        value={weight}
+                                        onChangeText={setWeight}
+                                        className="bg-white rounded-[16px] text-black w-[100px] py-[16px] font-line-bold text-center" />
                                     <Text className="font-line-bold text-primary text-[16px]">KG.</Text>
                                 </View>
                             </View>
                             <Pressable
                                 className="bg-primary w-full py-4 items-center rounded-full shadow-lg shadow-primary/50"
-                                onPress={() => navigation.navigate('Homepage')}
+                                onPress={handleRegisterSubmit}
                             >
                                 <Text className="text-xl font-line-bold text-black">Submit</Text>
                             </Pressable>

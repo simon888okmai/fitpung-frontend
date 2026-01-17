@@ -1,20 +1,33 @@
-import { ScrollView, View, Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useContext } from 'react';
+import { View, Text, Pressable, SafeAreaView } from 'react-native';
+
+// 1. เรียกใช้ Context
+import { AuthContext } from '../../../context/AuthContext';
 
 const Homepage = () => {
+    // 2. ดึงข้อมูล userInfo (ข้อมูลคน login) และฟังก์ชัน logout ออกมา
+    const { logout, userInfo } = useContext(AuthContext);
 
     return (
-        <SafeAreaView className="flex-1 bg-color">
-            <ScrollView
-                contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
-                keyboardShouldPersistTaps="handled"
+        <SafeAreaView className="flex-1 bg-white justify-center items-center">
+
+            {/* 3. เอาชื่อมาโชว์ตรงนี้ */}
+            <Text className="text-2xl font-bold mb-4">
+                สวัสดีคุณ, {userInfo?.username} 👋
+            </Text>
+
+            <Text className="text-gray-500 mb-8">
+                Email: {userInfo?.email}
+            </Text>
+
+            <Pressable
+                onPress={() => { logout() }}
+                className="bg-red-500 px-6 py-3 rounded-full shadow-md"
             >
-                <View className="px-[31px]">
-                    <Text className="text-[48px] text-primary font-line-xbold">Homepage</Text>
-                </View>
-            </ScrollView>
+                <Text className="text-white font-bold">Logout</Text>
+            </Pressable>
         </SafeAreaView>
-    )
+    );
 }
 
-export default Homepage
+export default Homepage;
