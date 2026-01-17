@@ -4,6 +4,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import React, { useContext, useState } from "react";
 import { registerUser } from "../../../services/auth";
+import { AuthContext } from "../../../context/AuthContext";
 
 
 const PersernalInfo = ({ navigation, route }) => {
