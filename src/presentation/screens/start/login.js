@@ -1,22 +1,22 @@
 import { Text, TextInput, View, Pressable, KeyboardAvoidingView, ScrollView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
-import { loginUser } from "../../services/auth";
+import { loginUser } from "../../../services/auth";
 
 export default function Login({ navigation }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
         if (!username || !password) {
             alert('Please fill in all fields');
             return;
-        } const result = loginUser({ username, password });
+        } const result = await loginUser({ username, password });
 
         if (result.ok) {
             console.log(result.data.user);
         } else {
-            alert(result.data.message);
+            alert("Login Failed");
         }
     }
     return (
@@ -37,6 +37,7 @@ export default function Login({ navigation }) {
                                 placeholder="Username"
                                 placeholderTextColor="#A2A2A2"
                                 className="bg-white h-[53] w-[331px] rounded-[16px] text-black p-[16px] font-line-bold"
+                                autoCapitalize="none"
                                 value={username}
                                 onChangeText={setUsername}
                             />
@@ -44,6 +45,7 @@ export default function Login({ navigation }) {
                                 placeholder="Password"
                                 placeholderTextColor="#A2A2A2"
                                 className="bg-white h-[53] w-[331px] rounded-[16px] mt-[20px] text-black p-[16px] font-line-bold"
+                                secureTextEntry={true}
                                 value={password}
                                 onChangeText={setPassword}
                             />
@@ -53,6 +55,7 @@ export default function Login({ navigation }) {
                         </Pressable>
                         <Pressable
                             className="bg-primary w-full py-[16px] rounded-[16px] shadow-lg shadow-primary/50 mt-[30px]"
+                            onPress={handleLogin}
                         >
                             <Text className="text-[20px] text-black text-center font-line-bold">Sign In</Text>
                         </Pressable>
