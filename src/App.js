@@ -6,11 +6,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Import Screens
-import Start from "./presentation/screens/start/start";
-import Login from "./presentation/screens/start/login";
-import Register from "./presentation/screens/start/register";
-import PersernalInfo from "./presentation/screens/start/persernalinfo";
-import Homepage from "./presentation/screens/Homepage/homepage";
+import Start from "./presentation/screens/start/Start";
+import Login from "./presentation/screens/start/Login";
+import Register from "./presentation/screens/start/Register";
+import PersernalInfo from "./presentation/screens/start/PersernalInfo";
+import Homepage from "./presentation/screens/Homepage/Homepage";
+import LoadingScreen from "./presentation/components/LoadingScreen";
+
+// 👇 แก้ตัวสะกดให้ถูกต้อง (เช็คชื่อไฟล์จริงด้วยนะครับว่า Tabs หรือ Taps)
+import AppTabs from "./presentation/navigation/AppTabs";
 
 // Context
 import { AuthContext, AuthProvider } from './context/AuthContext';
@@ -23,29 +27,24 @@ const AppNav = () => {
 
   // Loading
   if (isLoading) {
-    return (
-      <View className="flex-1 justify-center items-center bg-white">
-        <ActivityIndicator size="large" color="#B1FC30" />
-      </View>
-    );
+    return <LoadingScreen />;
   }
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {userToken !== null ? (
-          // Zone 1: คนที่ Login แล้ว (มี Token) -> ไปหน้า Homepage เลย
-          <Stack.Screen name="Homepage" component={Homepage} />
-        ) : (
-          // Zone 2: คนที่ยังไม่ Login (ไม่มี Token) -> เจอชุดหน้านี้
-          <>
-            <Stack.Screen name="Start" component={Start} />
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="Register" component={Register} />
-            <Stack.Screen name="PersernalInfo" component={PersernalInfo} />
-          </>
-        )}
-      </Stack.Navigator>
+      {/* 🔥 แก้ตรงนี้: เช็ค Token ตั้งแต่ชั้นนอกสุด */}
+      {userToken !== null ? (
+        // ✅ Zone 1: Login แล้ว -> โชว์ Tab Bar เพียวๆ เลย (ไม่ต้องมี Stack ครอบ)
+        <AppTabs />
+      ) : (
+        // ❌ Zone 2: ยังไม่ Login -> โชว์ Stack ของหน้า Login/Register
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Start" component={Start} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Register" component={Register} />
+          <Stack.Screen name="PersernalInfo" component={PersernalInfo} />
+        </Stack.Navigator>
+      )}
     </NavigationContainer>
   );
 }

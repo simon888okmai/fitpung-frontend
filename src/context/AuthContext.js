@@ -27,6 +27,7 @@ export const AuthProvider = ({ children }) => {
     const isLoggedIn = async () => {
         try {
             setIsLoading(true);
+
             let userToken = await AsyncStorage.getItem('userToken');
             let userInfo = await AsyncStorage.getItem('userInfo');
 

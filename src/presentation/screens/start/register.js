@@ -1,7 +1,8 @@
 import { Text, TextInput, View, Pressable, KeyboardAvoidingView, ScrollView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
-import NextButton from "../../components/nextButton";
+import NextButton from "../../components/NextButton";
+import AnimatedInput from "../../components/AnimatedInput";
 
 const Register = ({ navigation }) => {
 
@@ -9,8 +10,12 @@ const Register = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
 
+    const isUsernameValid = username.length >= 6;
+    const isPasswordValid = password.length >= 8;
+    const isEmailValid = /\S+@\S+\.\S+/.test(email);
+
     const handleNext = () => {
-        if (!username || !password || !email) {
+        if (!isUsernameValid || !isPasswordValid || !isEmailValid) {
             alert('Please fill in all fields');
             return;
         } navigation.navigate('PersernalInfo', {
@@ -32,32 +37,38 @@ const Register = ({ navigation }) => {
                 >
                     <View className="px-[31px] mb-12 ">
                         <Text className="text-[48px] font-line-xbold text-primary">Create your account</Text>
-                        <View className="mt-[32px] gap-y-[20px]">
-                            <TextInput
-                                placeholder="Username"
-                                placeholderTextColor="#A2A2A2"
-                                className="bg-white h-[53] w-[331px] rounded-[16px] text-black p-[16px] font-line-bold"
-                                autoCapitalize="none"
-                                value={username}
-                                onChangeText={setUsername}
-                            />
-                            <TextInput
-                                placeholder="Password"
-                                placeholderTextColor="#A2A2A2"
-                                className="bg-white h-[53] w-[331px] rounded-[16px] text-black p-[16px] font-line-bold"
-                                secureTextEntry={true}
-                                value={password}
-                                onChangeText={setPassword}
-                            />
-                            <TextInput
-                                placeholder="Email"
-                                placeholderTextColor="#A2A2A2"
-                                className="bg-white h-[53] w-[331px] rounded-[16px] text-black p-[16px] font-line-bold"
-                                keyboardType="email-address"
-                                autoCapitalize="none"
-                                value={email}
-                                onChangeText={setEmail}
-                            />
+                        <View className="mt-[32px] gap-y-[2px]">
+                            <View>
+                                <Text className="text-[18px] text-primary font-line-bold mb-[10px]">Username</Text>
+                                <AnimatedInput
+                                    value={username}
+                                    onChangeText={setUsername}
+                                    placeholder="Must be at least 6 characters long"
+                                    isValid={isUsernameValid}
+                                    iconDefault="person-outline"
+                                />
+                            </View>
+                            <View>
+                                <Text className="text-[18px] text-primary font-line-bold mb-[10px]">Password</Text>
+                                <AnimatedInput
+                                    value={password}
+                                    onChangeText={setPassword}
+                                    placeholder="Must be at least 8 characters long"
+                                    isValid={isPasswordValid}
+                                    isSecure
+                                    iconDefault="lock-closed-outline"
+                                />
+                            </View>
+                            <View>
+                                <Text className="text-[18px] text-primary font-line-bold mb-[10px]">Email</Text>
+                                <AnimatedInput
+                                    value={email}
+                                    onChangeText={setEmail}
+                                    placeholder="Email"
+                                    isValid={isEmailValid}
+                                    iconDefault="mail-outline"
+                                />
+                            </View>
                         </View>
                         <Pressable onPress={() => navigation.navigate('Login')}>
                             <Text className="text-[16px] text-white text-center font-line-bold mt-[25px]">Already have an account?</Text>
@@ -68,7 +79,7 @@ const Register = ({ navigation }) => {
                     onPress={handleNext}
                     className="absolute bottom-12 right-8" />
             </KeyboardAvoidingView>
-        </SafeAreaView>
+        </SafeAreaView >
     )
 }
 export default Register

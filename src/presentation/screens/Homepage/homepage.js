@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, Text, Pressable, SafeAreaView } from 'react-native';
+import { View, Text, Pressable, SafeAreaView, ScrollView } from 'react-native';
 
 // 1. เรียกใช้ Context
 import { AuthContext } from '../../../context/AuthContext';
@@ -9,23 +9,18 @@ const Homepage = () => {
     const { logout, userInfo } = useContext(AuthContext);
 
     return (
-        <SafeAreaView className="flex-1 bg-white justify-center items-center">
-
-            {/* 3. เอาชื่อมาโชว์ตรงนี้ */}
-            <Text className="text-2xl font-bold mb-4">
-                สวัสดีคุณ, {userInfo?.username} 👋
-            </Text>
-
-            <Text className="text-gray-500 mb-8">
-                Email: {userInfo?.email}
-            </Text>
-
-            <Pressable
-                onPress={() => { logout() }}
-                className="bg-red-500 px-6 py-3 rounded-full shadow-md"
-            >
-                <Text className="text-white font-bold">Logout</Text>
-            </Pressable>
+        <SafeAreaView className="flex-1 bg-color">
+            <ScrollView>
+                <View className="flex-1 px-[22px] mt-[18]">
+                    <Text className="text-[48px] font-line-xbold text-white">👋 Hello, {'\n'}<Text className="text-primary">Simon</Text></Text>
+                    <Pressable
+                        onPress={logout}
+                        className="mt-8 bg-[#FF4444] py-3 px-6 rounded-2xl self-start shadow-md"
+                    >
+                        <Text className="text-white font-line-bold text-lg">Logout</Text>
+                    </Pressable>
+                </View>
+            </ScrollView>
         </SafeAreaView>
     );
 }
