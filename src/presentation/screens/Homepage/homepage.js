@@ -11,7 +11,7 @@ import { AuthContext } from '../../../context/AuthContext';
 
 const Homepage = () => {
     const data = MOCK_DASHBOARD_FULL;
-    // const data2 = MOCK_DASHBOARD_EMPTY;
+    //const data = MOCK_DASHBOARD_EMPTY;
     // 2. ดึงฟังก์ชัน logout ออกมา
     const { logout } = useContext(AuthContext);
 

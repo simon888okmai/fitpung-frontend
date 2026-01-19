@@ -1,8 +1,22 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import AddButton from '../AddButton';
 
 const LastRun = ({ data }) => {
-    if (!data) return <View>...</View>
+    if (!data) return (
+        <View className="flex-1 flex-col px-[22px] py-[14px] bg-[#1E1E1E] rounded-[20px] shadow-md shadow-black">
+            <View className="flex-col">
+                <View className="flex-row">
+                    <Text className="text-[24px]">🏃</Text>
+                    <Text className="text-primary font-line-bold text-[20px]">Last Run, </Text>
+                    <Text className="text-white font-line-bold text-[20px]">No Run Yet</Text>
+                </View>
+                <View className="flex-1 items-center justify-center py-4">
+                    <AddButton />
+                </View>
+            </View>
+        </View>
+    )
     return (
         <View className="flex-1 flex-col gap-y-[20px] px-[22px] py-[14px] bg-[#1E1E1E] rounded-[20px] shadow-md shadow-black">
             <View className="flex-row">

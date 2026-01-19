@@ -1,9 +1,17 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import GoalRing from '../GoalRing';
+import AddButton from '../AddButton';
 
 const WeeklyGoal = ({ data }) => {
-    if (!data) return <View>...</View>
+    if (!data) return (
+        <View className="flex-1 flex-col gap-y-[10px] px-[22px] py-[12px] bg-[#1E1E1E] rounded-[20px] shadow-md shadow-black">
+            <Text className="text-primary text-[20px] font-line-bold inline-block"><Text className="text-[24px]">🏆</Text> Weekly Goal</Text>
+            <View className="items-center justify-center py-4">
+                <AddButton />
+            </View>
+        </View>
+    )
     return (
         <View className="flex-1 flex-col gap-y-[10px] px-[22px] py-[12px] bg-[#1E1E1E] rounded-[20px] shadow-md shadow-black">
             <Text className="text-primary text-[20px] font-line-bold inline-block"><Text className="text-[24px]">🏆</Text> Weekly Goal</Text>

@@ -1,8 +1,20 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import AddButton from '../AddButton';
 
 const ActiveShoe = ({ data }) => {
-    if (!data) return <View>...</View>
+    if (!data) return (
+        <View className="flex-1 flex-col px-[22px] py-[14px] bg-[#1E1E1E] rounded-[20px] shadow-md shadow-black">
+            <View className="flex-row gap-y-[15px]">
+                <Text className="text-[24px]">👟 </Text>
+                <Text className="text-primary font-line-bold text-[20px]">My Shoe,</Text>
+            </View>
+            <Text className="text-white font-line-bold text-[20px] pt-[15px]">No Shoe</Text>
+            <View className="flex-1 items-center justify-center py-4">
+                <AddButton />
+            </View>
+        </View>
+    )
 
     const percentage = Math.min((data.current_distance / data.max_distance) * 100, 100);
 
