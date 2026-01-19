@@ -21,7 +21,6 @@ export const MOCK_DASHBOARD_FULL = {
         name: "Adidas adizero evo sl",
         current_distance: 350.5,
         max_distance: 600,
-        image: "https://assets.adidas.com/images/w_600,f_auto,q_auto/..." // ใส่ URL รูปชั่วคราว
     }
 };
 

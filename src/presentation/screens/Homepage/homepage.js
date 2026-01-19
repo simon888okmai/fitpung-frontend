@@ -4,6 +4,7 @@ import { View, Text, Pressable, ScrollView } from 'react-native';
 import { MOCK_DASHBOARD_FULL, MOCK_DASHBOARD_EMPTY } from '../../../data/dashboardData';
 import WeeklyGoal from '../../../presentation/components/homescreen_card/WeeklyGoal';
 import LastRun from '../../../presentation/components/homescreen_card/LastRun';
+import ActiveShoe from '../../../presentation/components/homescreen_card/ActiveShoe';
 
 // 1. เรียกใช้ Context
 import { AuthContext } from '../../../context/AuthContext';
@@ -20,6 +21,7 @@ const Homepage = () => {
                 <Text className="text-[48px] font-line-xbold text-white">👋 Hello, {'\n'}<Text className="text-primary">{data.user.name}</Text></Text>
                 <WeeklyGoal data={data.weekly_goal} />
                 <LastRun data={data.last_run} />
+                <ActiveShoe data={data.active_shoe} />
                 <Pressable
                     onPress={logout}
                     className="mt-8 bg-[#FF4444] py-3 px-6 rounded-2xl self-start shadow-md"
