@@ -1,4 +1,3 @@
-// src/data/dashboardMock.ts
 
 // 1. แบบมีข้อมูลครบ (Full State)
 export const MOCK_DASHBOARD_FULL = {
@@ -6,7 +5,7 @@ export const MOCK_DASHBOARD_FULL = {
         name: "Simon",
     },
     weekly_goal: {
-        current: 150,
+        current: 100,
         target: 150,
         streak: 3,
         unit: "KM"

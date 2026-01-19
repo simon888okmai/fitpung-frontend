@@ -8,7 +8,7 @@ const GoalRing = ({
     current = 0,
     target = 100,
     size = 80,       // ปรับขนาดได้ตามต้องการ
-    strokeWidth = 15 // ความหนาเส้น
+    strokeWidth = 20 // ความหนาเส้น
 }) => {
     // คำนวณรัศมี (แบบปกติ ไม่ต้องเผื่อแสง)
     const radius = (size - strokeWidth) / 2;
