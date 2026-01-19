@@ -1,27 +1,31 @@
 import React, { useContext } from 'react';
-import { View, Text, Pressable, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, Pressable, ScrollView } from 'react-native';
+
+import { MOCK_DASHBOARD_FULL, MOCK_DASHBOARD_EMPTY } from '../../../data/dashboardData';
+import WeeklyGoal from '../../../presentation/components/homescreen_card/WeeklyGoal';
 
 // 1. เรียกใช้ Context
 import { AuthContext } from '../../../context/AuthContext';
 
 const Homepage = () => {
-    // 2. ดึงข้อมูล userInfo (ข้อมูลคน login) และฟังก์ชัน logout ออกมา
-    const { logout, userInfo } = useContext(AuthContext);
+    const data = MOCK_DASHBOARD_FULL;
+    // const data2 = MOCK_DASHBOARD_EMPTY;
+    // 2. ดึงฟังก์ชัน logout ออกมา
+    const { logout } = useContext(AuthContext);
 
     return (
-        <SafeAreaView className="flex-1 bg-color">
-            <ScrollView>
-                <View className="flex-1 px-[22px] mt-[18]">
-                    <Text className="text-[48px] font-line-xbold text-white">👋 Hello, {'\n'}<Text className="text-primary">Simon</Text></Text>
-                    <Pressable
-                        onPress={logout}
-                        className="mt-8 bg-[#FF4444] py-3 px-6 rounded-2xl self-start shadow-md"
-                    >
-                        <Text className="text-white font-line-bold text-lg">Logout</Text>
-                    </Pressable>
-                </View>
-            </ScrollView>
-        </SafeAreaView>
+        <ScrollView className="flex-1 bg-color">
+            <View className="flex-1 px-[22px] mt-[18] gap-y-[16px]">
+                <Text className="text-[48px] font-line-xbold text-white">👋 Hello, {'\n'}<Text className="text-primary">{data.user.name}</Text></Text>
+                <WeeklyGoal data={data.weekly_goal} />
+                <Pressable
+                    onPress={logout}
+                    className="mt-8 bg-[#FF4444] py-3 px-6 rounded-2xl self-start shadow-md"
+                >
+                    <Text className="text-white font-line-bold text-lg">Logout</Text>
+                </Pressable>
+            </View>
+        </ScrollView>
     );
 }
 
