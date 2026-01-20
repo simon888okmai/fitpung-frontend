@@ -1,9 +1,11 @@
 import { View, ScrollView } from 'react-native';
 import ACTIVITY_DATA from '../../../data/activityData';
+//import { ACTIVITY_DATA_EMPTY as ACTIVITY_DATA } from '../../../data/activityData';
 import ThisMonth from '../../components/activity_card/ThisMonth';
 import CalendarView from '../../components/activity_card/Calendar';
 import WeeklyGoals from '../../components/activity_card/WeeklyGoals';
 import Badges from '../../components/activity_card/Badges';
+import RecentRuns from '../../components/activity_card/RecentRuns';
 
 const ActivityPage = () => {
     const data = ACTIVITY_DATA;
@@ -41,7 +43,7 @@ const ActivityPage = () => {
                     runDays={data.summary.runDays}
                 />
                 <View className="bg-primary h-[2px] w-full"></View>
-                <View className='flex-row gap-x-[15px] mt-[30px] mb-[50px]'>
+                <View className='flex-row gap-x-[15px] mt-[30px] mb-[30px]'>
                     <WeeklyGoals
                         data={data.cards.weeklyGoal}
                     />
@@ -49,6 +51,9 @@ const ActivityPage = () => {
                         data={data.cards.badges}
                     />
                 </View>
+                <RecentRuns
+                    runs={data.recentRuns}
+                />
             </View>
         </ScrollView>
     );
