@@ -19,9 +19,9 @@ const Homepage = () => {
         <ScrollView className="flex-1 bg-color">
             <View className="flex-1 px-[22px] mt-[18] gap-y-[16px]">
                 <Text className="text-[48px] font-line-xbold text-white">👋 Hello, {'\n'}<Text className="text-primary">{data.user.name}</Text></Text>
-                <WeeklyGoal data={data.weekly_goal} />
-                <LastRun data={data.last_run} />
-                <ActiveShoe data={data.active_shoe} />
+                <WeeklyGoal data={data.weeklyGoal} />
+                <LastRun data={data.lastRun} />
+                <ActiveShoe data={data.activeShoe} />
                 <Pressable
                     onPress={logout}
                     className="mt-8 bg-[#FF4444] py-3 px-6 rounded-2xl self-start shadow-md"

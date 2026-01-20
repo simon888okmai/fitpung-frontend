@@ -21,16 +21,15 @@ const ACTIVITY_DATA = {
     // --- 3. ข้อมูลการ์ด (Cards: Goals & Badges) ---
     cards: {
         weeklyGoal: {
-            current: 20,
-            target: 200,
+            current: 100,
+            target: 150,
             unit: "km",
+            streak: 3,
             status: "🔥 On Track",
-            progress: 0.1, // 10%
         },
         badges: {
             unlocked: 4,
             total: 10,
-            latestIcon: "🏆",
         }
     },
 

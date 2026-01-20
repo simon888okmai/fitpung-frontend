@@ -4,23 +4,23 @@ export const MOCK_DASHBOARD_FULL = {
     user: {
         name: "Simon",
     },
-    weekly_goal: {
+    weeklyGoal: {
         current: 100,
         target: 150,
         streak: 3,
-        unit: "KM"
+        unit: "km"
     },
-    last_run: {
+    lastRun: {
         date: "Yesterday 18:30",
         distance: "12.5 km",
         duration: "1:32:10 hours",
         pace: "6'25\" /km",
         calories: "200 kcal"
     },
-    active_shoe: {
+    activeShoe: {
         name: "Adidas adizero evo sl",
-        current_distance: 350.5,
-        max_distance: 600,
+        currentdistance: 350.5,
+        maxdistance: 600,
     }
 };
 
@@ -30,7 +30,7 @@ export const MOCK_DASHBOARD_EMPTY = {
         name: "Simon",
         avatar: "https://i.pravatar.cc/150?u=simon"
     },
-    weekly_goal: null,
-    last_run: null,
-    active_shoe: null
+    weeklyGoal: null,
+    lastRun: null,
+    activeShoe: null
 };
