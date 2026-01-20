@@ -2,7 +2,8 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
-import Homepage from '../screens/Homepage/Homepage';
+import Homepage from '../screens/Homepage/HomePage';
+import ActivityPage from '../screens/Activitypage/ActivityPage';
 import { HomeIcon, RunIcon, ActivityIcon } from '../../../assets/icons/Icon';
 
 import { View, Text, TouchableOpacity } from 'react-native';
@@ -81,7 +82,7 @@ export default function AppTabs() {
         >
             <Tab.Screen name="Home" component={Homepage} options={{ title: 'Home' }} />
             <Tab.Screen name="Run" component={PlaceholderScreen} options={{ title: 'Run' }} />
-            <Tab.Screen name="Activity" component={PlaceholderScreen} options={{ title: 'Activity' }} />
+            <Tab.Screen name="Activity" component={ActivityPage} options={{ title: 'Activity' }} />
         </Tab.Navigator>
     );
 }

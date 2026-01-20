@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import { View, Text, Pressable, ScrollView } from 'react-native';
 
 import { MOCK_DASHBOARD_FULL, MOCK_DASHBOARD_EMPTY } from '../../../data/dashboardData';
-import WeeklyGoal from '../../../presentation/components/homescreen_card/WeeklyGoal';
-import LastRun from '../../../presentation/components/homescreen_card/LastRun';
-import ActiveShoe from '../../../presentation/components/homescreen_card/ActiveShoe';
+import WeeklyGoal from '../../components/homescreen_card/WeeklyGoal';
+import LastRun from '../../components/homescreen_card/LastRun';
+import ActiveShoe from '../../components/homescreen_card/ActiveShoe';
 
 // 1. เรียกใช้ Context
 import { AuthContext } from '../../../context/AuthContext';

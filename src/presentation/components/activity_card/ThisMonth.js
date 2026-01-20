@@ -1,0 +1,53 @@
+import React from 'react';
+import { View, Text } from 'react-native';
+
+const ThisMonth = ({ month, stats }) => {
+    return (
+        <View className="gap-y-[20px]">
+
+            <View className="flex-row items-center gap-x-2">
+                <Text className="text-[20px]">🗓️</Text>
+                <Text className="text-[32px] font-line-bold text-primary">
+                    {month}
+                </Text>
+            </View>
+
+            <View className="bg-primary rounded-[10px] px-[8px] py-[4px] self-start flex-row items-baseline gap-x-[2px]">
+                <Text className="text-[24px]">🔥</Text>
+                <Text className="text-[18px] font-line-bold text-black">{stats?.streak} Streak !!!</Text>
+            </View>
+
+            <View className="flex-row items-start">
+                <View className="w-[180px]">
+                    <Text className="text-[24px] font-line-bold text-white">
+                        {stats?.totalDistance} km
+                    </Text>
+                    <Text className="text-[15px] font-line-bold text-primary">
+                        Distance
+                    </Text>
+                </View>
+
+                <View>
+                    <Text className="text-[24px] font-line-bold text-white">
+                        {stats?.totalTime}
+                    </Text>
+                    <Text className="text-[15px] font-line-bold text-primary">
+                        Time
+                    </Text>
+                </View>
+            </View>
+
+            <View>
+                <Text className="text-[24px] font-line-bold text-white">
+                    {stats?.totalCalories} kcal
+                </Text>
+                <Text className="text-[15px] font-line-bold text-primary">
+                    Calories
+                </Text>
+            </View>
+
+        </View>
+    );
+}
+
+export default ThisMonth;

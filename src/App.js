@@ -10,7 +10,7 @@ import Start from "./presentation/screens/start/Start";
 import Login from "./presentation/screens/start/Login";
 import Register from "./presentation/screens/start/Register";
 import PersernalInfo from "./presentation/screens/start/PersernalInfo";
-import Homepage from "./presentation/screens/Homepage/Homepage";
+import Homepage from "./presentation/screens/Homepage/HomePage";
 import LoadingScreen from "./presentation/components/LoadingScreen";
 
 // 👇 แก้ตัวสะกดให้ถูกต้อง (เช็คชื่อไฟล์จริงด้วยนะครับว่า Tabs หรือ Taps)
