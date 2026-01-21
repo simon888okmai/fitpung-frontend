@@ -1,4 +1,5 @@
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import ACTIVITY_DATA from '../../../data/activityData';
 //import { ACTIVITY_DATA_EMPTY as ACTIVITY_DATA } from '../../../data/activityData';
 import ThisMonth from '../../components/activity_card/ThisMonth';
@@ -8,6 +9,7 @@ import Badges from '../../components/activity_card/Badges';
 import RecentRuns from '../../components/activity_card/RecentRuns';
 
 const ActivityPage = () => {
+    const navigation = useNavigation();
     const data = ACTIVITY_DATA;
 
     // 1. ดึงวันเวลาปัจจุบัน
@@ -44,12 +46,20 @@ const ActivityPage = () => {
                 />
                 <View className="bg-primary h-[2px] w-full"></View>
                 <View className='flex-row gap-x-[15px] mt-[30px] mb-[30px]'>
-                    <WeeklyGoals
-                        data={data.cards.weeklyGoal}
-                    />
-                    <Badges
-                        data={data.cards.badges}
-                    />
+                    <View className="flex-1">
+                        <WeeklyGoals
+                            data={data.cards.weeklyGoal}
+                        />
+                    </View>
+                    <TouchableOpacity
+                        className="flex-1"
+                        onPress={() => navigation.navigate('BadgePage')}
+                    >
+
+                        <Badges
+                            data={data.cards.badges}
+                        />
+                    </TouchableOpacity>
                 </View>
                 <RecentRuns
                     runs={data.recentRuns}

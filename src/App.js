@@ -5,39 +5,50 @@ import { useFonts } from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-// Import Screens
 import Start from "./presentation/screens/start/Start";
 import Login from "./presentation/screens/start/Login";
 import Register from "./presentation/screens/start/Register";
 import PersernalInfo from "./presentation/screens/start/PersernalInfo";
 import Homepage from "./presentation/screens/Homepage/HomePage";
+import BadgePage from "./presentation/screens/Activitypage/BadgePage";
 import LoadingScreen from "./presentation/components/LoadingScreen";
 
-// 👇 แก้ตัวสะกดให้ถูกต้อง (เช็คชื่อไฟล์จริงด้วยนะครับว่า Tabs หรือ Taps)
 import AppTabs from "./presentation/navigation/AppTabs";
 
-// Context
 import { AuthContext, AuthProvider } from './context/AuthContext';
 
 const Stack = createNativeStackNavigator();
+const MainStack = createNativeStackNavigator();
 
-// Navigation
+const AuthenticatedStack = () => {
+  return (
+    <MainStack.Navigator screenOptions={{ headerShown: false }}>
+      <MainStack.Screen name="AppTabs" component={AppTabs} />
+
+      <MainStack.Screen
+        name="BadgePage"
+        component={BadgePage}
+        options={{
+          headerShown: false,
+          presentation: 'modal',
+        }}
+      />
+    </MainStack.Navigator>
+  );
+};
+
 const AppNav = () => {
   const { isLoading, userToken } = useContext(AuthContext);
 
-  // Loading
   if (isLoading) {
     return <LoadingScreen />;
   }
 
   return (
     <NavigationContainer>
-      {/* 🔥 แก้ตรงนี้: เช็ค Token ตั้งแต่ชั้นนอกสุด */}
       {userToken !== null ? (
-        // ✅ Zone 1: Login แล้ว -> โชว์ Tab Bar เพียวๆ เลย (ไม่ต้องมี Stack ครอบ)
-        <AppTabs />
+        <AuthenticatedStack />
       ) : (
-        // ❌ Zone 2: ยังไม่ Login -> โชว์ Stack ของหน้า Login/Register
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Start" component={Start} />
           <Stack.Screen name="Login" component={Login} />
@@ -50,7 +61,6 @@ const AppNav = () => {
 }
 
 export default function App() {
-  // Font
   const [fontsLoaded] = useFonts({
     'LINESeedSans-Regular': require('../assets/font/Lineseed/LINESeedSans_Rg.otf'),
     'LINESeedSans-Bold': require('../assets/font/Lineseed/LINESeedSans_Bd.otf'),
@@ -65,7 +75,6 @@ export default function App() {
     );
   }
 
-  // AuthProvider
   return (
     <AuthProvider>
       <AppNav />
