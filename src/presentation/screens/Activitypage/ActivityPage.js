@@ -47,9 +47,12 @@ const ActivityPage = () => {
                 <View className="bg-primary h-[2px] w-full"></View>
                 <View className='flex-row gap-x-[15px] mt-[30px] mb-[30px]'>
                     <View className="flex-1">
-                        <WeeklyGoals
-                            data={data.cards.weeklyGoal}
-                        />
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('WeeklyGoalPage')}>
+                            <WeeklyGoals
+                                data={data.cards.weeklyGoal}
+                            />
+                        </TouchableOpacity>
                     </View>
                     <TouchableOpacity
                         className="flex-1"

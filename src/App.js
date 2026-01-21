@@ -11,6 +11,7 @@ import Register from "./presentation/screens/start/Register";
 import PersernalInfo from "./presentation/screens/start/PersernalInfo";
 import Homepage from "./presentation/screens/Homepage/HomePage";
 import BadgePage from "./presentation/screens/Activitypage/BadgePage";
+import WeeklyGoalPage from "./presentation/screens/Activitypage/WeeklyGoal";
 import LoadingScreen from "./presentation/components/LoadingScreen";
 
 import AppTabs from "./presentation/navigation/AppTabs";
@@ -28,6 +29,14 @@ const AuthenticatedStack = () => {
       <MainStack.Screen
         name="BadgePage"
         component={BadgePage}
+        options={{
+          headerShown: false,
+          presentation: 'modal',
+        }}
+      />
+      <MainStack.Screen
+        name="WeeklyGoalPage"
+        component={WeeklyGoalPage}
         options={{
           headerShown: false,
           presentation: 'modal',
