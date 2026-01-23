@@ -1,7 +1,6 @@
 export const ACTIVITY_DATA_FULL = {
     user: {
         name: "FitPung Runner",
-        avatar: "https://github.com/shadcn.png",
     },
     currentMonth: "January 2026", // ใช้ currentMonth ให้สื่อความหมาย
 

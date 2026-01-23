@@ -4,7 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { WEEKLY_GOAL_EMPTY, WEEKLY_GOAL_ACTIVE } from '../../../data/WeeklyGoal';
 import GoalRing from '../../components/GoalRing';
-import GoalPicker from '../../components/GoalPicker';
+import GoalPicker from '../../components/weekly_page/GoalPicker';
+import Graph from '../../components/weekly_page/Graph';
 
 const WeeklyGoalPage = () => {
     const navigation = useNavigation();
@@ -67,8 +68,11 @@ const WeeklyGoalPage = () => {
                         >
                             <Text className="text-xl font-line-bold text-black">Confirm</Text>
                         </TouchableOpacity>
-                        <View className=""></View>
-
+                        <View className="bg-primary w-full h-[2px]"></View>
+                        <View>
+                            <Text className="font-line-bold text-white text-[24px]">Last Week.</Text>
+                        </View>
+                        <Graph />
 
                     </View>
                 )}
