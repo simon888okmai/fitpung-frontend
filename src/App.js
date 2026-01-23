@@ -1,5 +1,6 @@
 import "../global.css"
 import React, { useContext } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ActivityIndicator, View } from "react-native";
 import { useFonts } from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
@@ -17,6 +18,8 @@ import LoadingScreen from "./presentation/components/LoadingScreen";
 import AppTabs from "./presentation/navigation/AppTabs";
 
 import { AuthContext, AuthProvider } from './context/AuthContext';
+
+const queryClient = new QueryClient();
 
 const Stack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
@@ -54,18 +57,20 @@ const AppNav = () => {
   }
 
   return (
-    <NavigationContainer>
-      {userToken !== null ? (
-        <AuthenticatedStack />
-      ) : (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Start" component={Start} />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Register" component={Register} />
-          <Stack.Screen name="PersernalInfo" component={PersernalInfo} />
-        </Stack.Navigator>
-      )}
-    </NavigationContainer>
+    <QueryClientProvider client={queryClient}>
+      <NavigationContainer>
+        {userToken !== null ? (
+          <AuthenticatedStack />
+        ) : (
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Start" component={Start} />
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Register" component={Register} />
+            <Stack.Screen name="PersernalInfo" component={PersernalInfo} />
+          </Stack.Navigator>
+        )}
+      </NavigationContainer>
+    </QueryClientProvider>
   );
 }
 
