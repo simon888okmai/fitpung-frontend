@@ -16,7 +16,7 @@ const ActiveShoe = ({ data }) => {
         </View>
     )
 
-    const percentage = Math.min((data.currentdistance / data.maxdistance) * 100, 100);
+    const percentage = Math.min((data.currentDistance / data.maxDistance) * 100, 100);
 
     return (
         <View className="flex-1 flex-col gap-y-[20px] px-[22px] py-[14px] bg-[#1E1E1E] rounded-[20px] shadow-md shadow-black">
@@ -27,7 +27,7 @@ const ActiveShoe = ({ data }) => {
             <Text className="text-white font-line-bold text-[18px]">{data.name}</Text>
             <View className="flex-row items-baseline">
                 <Text className="text-primary font-line-bold text-[16px]">Current Distance:  </Text>
-                <Text className="text-white font-line-bold text-[18px]">{data.currentdistance} / {data.maxdistance} KM</Text>
+                <Text className="text-white font-line-bold text-[18px]">{data.currentDistance} / {data.maxDistance} KM</Text>
             </View>
             <View className="w-full h-[20px] bg-[#444444] rounded-[5px] overflow-hidden">
                 <View
