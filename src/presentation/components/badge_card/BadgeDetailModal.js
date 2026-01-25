@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, Text, Modal, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { formatDate } from '../../../utils/formatters';
 
 const BadgeDetailModal = ({ visible, onClose, badge }) => {
     if (!badge) return null;
 
-    const isUnlocked = badge.unlocked;
+    const isUnlocked = badge.isUnlocked;
 
     return (
         <Modal
@@ -37,7 +38,7 @@ const BadgeDetailModal = ({ visible, onClose, badge }) => {
                     {isUnlocked ? (
                         <View className="items-center w-full">
                             <Text className="text-white text-[16px] font-line-bold mb-[8px]">
-                                Unlocked on <Text className="text-[#B1FC30]">{badge.date}</Text>
+                                Unlocked on <Text className="text-[#B1FC30]">{formatDate(badge.earnedAt)}</Text>
                             </Text>
 
                             <Text className="text-[#B1FC30] text-[14px] font-line-bold mb-[8px] mt-[10px] uppercase tracking-widest">
@@ -45,7 +46,7 @@ const BadgeDetailModal = ({ visible, onClose, badge }) => {
                             </Text>
 
                             <Text className="text-white text-[18px] font-line-bold text-center leading-[26px] mb-[20px]">
-                                {badge.condition}
+                                {badge.description}
                             </Text>
                         </View>
                     ) : (

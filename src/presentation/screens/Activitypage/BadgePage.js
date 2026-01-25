@@ -1,17 +1,29 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, SafeAreaView, StatusBar } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, SafeAreaView, StatusBar, ActivityIndicator, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
 import BadgeCard from '../../components/badge_card/BadgeCard';
 import BadgeDetailModal from '../../components/badge_card/BadgeDetailModal';
-import { BADGES_DATA } from '../../../data/badgesData';
+import { useBadges } from '../../hooks/useBadges';
 
 const BadgePage = () => {
     const navigation = useNavigation();
 
+    // ✅ 1. ดึงข้อมูลจาก Hook
+    // (เปลี่ยนชื่อ data -> badges เพื่อให้อ่านง่าย)
+    const { data: badges, isLoading, error, refetch } = useBadges();
+
     const [selectedBadge, setSelectedBadge] = useState(null);
     const [isModalVisible, setModalVisible] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
+
+    // ฟังก์ชัน Pull to Refresh
+    const onRefresh = useCallback(async () => {
+        setRefreshing(true);
+        await refetch();
+        setRefreshing(false);
+    }, [refetch]);
 
     const handleBadgePress = (badge) => {
         setSelectedBadge(badge);
@@ -22,6 +34,30 @@ const BadgePage = () => {
         setModalVisible(false);
         setSelectedBadge(null);
     };
+
+    // ⏳ Loading State
+    if (isLoading && !refreshing) {
+        return (
+            <View className="flex-1 bg-color justify-center items-center">
+                <ActivityIndicator size="large" color="#bef264" />
+            </View>
+        );
+    }
+
+    // ❌ Error State
+    if (error) {
+        return (
+            <View className="flex-1 bg-color justify-center items-center">
+                <Text className="text-white text-lg mb-4">Failed to load badges</Text>
+                <TouchableOpacity
+                    onPress={refetch}
+                    className="bg-primary px-6 py-2 rounded-full"
+                >
+                    <Text className="font-line-bold text-black">Try Again</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
 
     return (
         <View className="flex-1 bg-color">
@@ -51,19 +87,32 @@ const BadgePage = () => {
                 className="flex-1 px-[22px]"
                 contentContainerStyle={{ paddingBottom: 40, paddingTop: 20 }}
                 showsVerticalScrollIndicator={false}
+                // ✅ เพิ่ม Pull to Refresh เผื่ออยากกดดูเหรียญใหม่ทันที
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#bef264" />
+                }
             >
-                <View className="flex-row flex-wrap justify-between gap-y-[18px]">
-                    {BADGES_DATA.map((badge) => (
-                        <TouchableOpacity
-                            key={badge.id}
-                            className="w-[48%]"
-                            activeOpacity={0.8}
-                            onPress={() => handleBadgePress(badge)}
-                        >
-                            <BadgeCard data={badge} />
-                        </TouchableOpacity>
-                    ))}
-                </View>
+                {/* ถ้าไม่มีข้อมูลเลย */}
+                {!badges || badges.length === 0 ? (
+                    <View className="mt-20 items-center">
+                        <Text className="text-gray-400 font-line text-lg">No badges found</Text>
+                    </View>
+                ) : (
+                    <View className="flex-row flex-wrap justify-between gap-y-[18px]">
+                        {/* ✅ Loop ข้อมูลจริงจาก Backend */}
+                        {badges.map((badge) => (
+                            <TouchableOpacity
+                                key={badge.id}
+                                className="w-[48%]"
+                                activeOpacity={0.8}
+                                onPress={() => handleBadgePress(badge)}
+                            >
+                                {/* ส่งข้อมูลจริงเข้าไป (มี field isUnlocked ติดไปด้วย) */}
+                                <BadgeCard data={badge} />
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+                )}
             </ScrollView>
 
             <BadgeDetailModal
