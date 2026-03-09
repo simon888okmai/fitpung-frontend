@@ -64,24 +64,14 @@ const Homepage = () => {
                 {/* Cards Section */}
                 {/* ส่ง data ที่ได้จาก API เข้าไปใน Component เดิม */}
 
-                {data.weeklyGoal && (
-                    <WeeklyGoal data={data.weeklyGoal} />
-                )}
+                <WeeklyGoal data={data.weeklyGoal} />
 
                 {/* เช็คก่อนว่ามีข้อมูลวิ่งล่าสุดไหม */}
-                {data.lastRun ? (
-                    <LastRun data={data.lastRun} />
-                ) : (
-                    // กรณี User ใหม่ ยังไม่มีประวัติวิ่ง
-                    <View className="bg-[#1C1C1E] p-6 rounded-2xl items-center">
-                        <Text className="text-gray-400 font-line">No run history yet.</Text>
-                    </View>
-                )}
+                <LastRun data={data.lastRun} />
 
                 {/* เช็คก่อนว่ามีรองเท้า Default ไหม */}
-                {data.activeShoe && (
-                    <ActiveShoe data={data.activeShoe} />
-                )}
+
+                <ActiveShoe data={data.activeShoe} />
 
                 {/* Logout Button */}
                 <Pressable

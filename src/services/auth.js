@@ -31,3 +31,20 @@ export const loginUser = async (authUser) => {
         return { ok: false, data: { message: "Cannot connect to server" } };
     }
 }
+
+export const completeProfileInfo = async (token, profileData) => {
+    try {
+        const response = await fetch(`${BASE_URL}/profile/complete`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(profileData)
+        });
+        const json = await response.json();
+        return { ok: response.ok, data: json };
+    } catch (error) {
+        return { ok: false, data: { message: "Cannot connect to server" } };
+    }
+}

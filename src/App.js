@@ -13,6 +13,7 @@ import PersernalInfo from "./presentation/screens/start/PersernalInfo";
 import Homepage from "./presentation/screens/Homepage/HomePage";
 import BadgePage from "./presentation/screens/Activitypage/BadgePage";
 import WeeklyGoalPage from "./presentation/screens/Activitypage/WeeklyGoal";
+import AllRunsPage from "./presentation/screens/Activitypage/AllRunsPage";
 import LoadingScreen from "./presentation/components/LoadingScreen";
 
 import AppTabs from "./presentation/navigation/AppTabs";
@@ -45,12 +46,19 @@ const AuthenticatedStack = () => {
           presentation: 'modal',
         }}
       />
+      <MainStack.Screen
+        name="AllRunsPage"
+        component={AllRunsPage}
+        options={{
+          headerShown: false,
+        }}
+      />
     </MainStack.Navigator>
   );
 };
 
 const AppNav = () => {
-  const { isLoading, userToken } = useContext(AuthContext);
+  const { isLoading, userToken, isProfileComplete } = useContext(AuthContext);
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -60,13 +68,18 @@ const AppNav = () => {
     <QueryClientProvider client={queryClient}>
       <NavigationContainer>
         {userToken !== null ? (
-          <AuthenticatedStack />
+          isProfileComplete ? (
+            <AuthenticatedStack />
+          ) : (
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="PersernalInfo" component={PersernalInfo} />
+            </Stack.Navigator>
+          )
         ) : (
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Start" component={Start} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Register" component={Register} />
-            <Stack.Screen name="PersernalInfo" component={PersernalInfo} />
           </Stack.Navigator>
         )}
       </NavigationContainer>

@@ -18,9 +18,6 @@ const Graph = () => {
 
     return (
         <View className="mb-10">
-            {/* เส้นขีดหัวข้อ */}
-            <View className="border-t-[2px] border-[#B1FC30] w-[40%] mb-4" />
-            <Text className="text-[#B1FC30] font-line-bold text-[20px] mb-4">Last week</Text>
 
             <View className="flex-row">
                 {/* --- ส่วนกราฟด้านซ้าย (Left Side) --- */}

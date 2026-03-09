@@ -3,15 +3,13 @@ import { Pressable, Text, TextInput, View, Platform, Modal, KeyboardAvoidingView
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import React, { useContext, useState } from "react";
-import { registerUser } from "../../../services/auth";
+import { completeProfileInfo } from "../../../services/auth";
 import { AuthContext } from "../../../context/AuthContext";
 
 
-const PersernalInfo = ({ navigation, route }) => {
+const PersernalInfo = () => {
 
-    const { username, password, email } = route.params;
-
-    const { login } = useContext(AuthContext);
+    const { userToken, completeProfile } = useContext(AuthContext);
     const [date, setDate] = useState(new Date());
     const [dateOfBirth, setDateOfBirth] = useState("");
     const [showPicker, setShowPicker] = useState(false);
@@ -66,26 +64,18 @@ const PersernalInfo = ({ navigation, route }) => {
         const formattedDateForDB = `${year}-${month}-${day}`;
 
         const finalData = {
-            username,
-            password,
-            email,
             name,
             date_of_birth: formattedDateForDB,
             gender,
             height: parseFloat(height),
             weight: parseFloat(weight)
         };
-        const result = await registerUser(finalData);
+        const result = await completeProfileInfo(userToken, finalData);
         if (result.ok) {
-            console.log("Success : ", result.data);
-            if (result.data) {
-                login(result.data.token, result.data.user);
-            } else {
-                Alert.alert("Success", "Registered successfully! Please Login.");
-                navigation.navigate('Login');
-            }
+            console.log("Profile Setup Success : ", result.data);
+            completeProfile();
         } else {
-            Alert.alert("Register Failed", result.data.message);
+            Alert.alert("Setup Failed", result.data.message);
         }
     }
 

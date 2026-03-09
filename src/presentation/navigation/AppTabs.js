@@ -4,10 +4,10 @@ import { Ionicons } from '@expo/vector-icons';
 
 import Homepage from '../screens/Homepage/HomePage';
 import ActivityPage from '../screens/Activitypage/ActivityPage';
+import RunPage from '../screens/RunPage/RunPage';
 import { HomeIcon, RunIcon, ActivityIcon } from '../../../assets/icons/Icon';
 
 import { View, Text, TouchableOpacity } from 'react-native';
-const PlaceholderScreen = () => <View className="flex-1 bg-white justify-center items-center"><Text>Coming Soon</Text></View>;
 
 const Tab = createBottomTabNavigator();
 
@@ -81,7 +81,7 @@ export default function AppTabs() {
             })}
         >
             <Tab.Screen name="Home" component={Homepage} options={{ title: 'Home' }} />
-            <Tab.Screen name="Run" component={PlaceholderScreen} options={{ title: 'Run' }} />
+            <Tab.Screen name="Run" component={RunPage} options={{ title: 'Run', headerShown: false }} />
             <Tab.Screen name="Activity" component={ActivityPage} options={{ title: 'Activity' }} />
         </Tab.Navigator>
     );

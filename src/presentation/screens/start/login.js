@@ -13,10 +13,12 @@ export default function Login({ navigation }) {
         if (!username || !password) {
             alert('Please fill in all fields');
             return;
-        } const result = await loginUser({ username, password });
+        }
+
+        const result = await loginUser({ username, password });
 
         if (result.ok) {
-            login(result.data.token, result.data.user);
+            login(result.data.token, result.data.user, result.data.isProfileComplete);
         } else {
             alert("Login Failed");
         }

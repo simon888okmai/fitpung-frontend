@@ -1,13 +1,15 @@
 // กรณีที่ 1: มีเป้าหมาย และกำลังทำอยู่ (On Track) 🟢
 export const WEEKLY_GOAL_ACTIVE = {
     hasGoal: true,       // ตัวเช็คว่ามีเป้าไหม
-    current: 32.5,       // ระยะที่วิ่งได้
-    target: 50,          // เป้าหมาย
+    current: 500,       // ระยะที่วิ่งได้
+    target: 1000,          // เป้าหมาย
     unit: 'km',
     status: 'On Track',  // สถานะ
     statusColor: '#B1FC30', // สีเขียว
-    burn: 1250,          // แคลอรี่ที่เบิร์นไป (Optional)
-    timeLeft: '3 days left'
+    burn: 1000,          // แคลอรี่ที่เบิร์นไป (Optional)
+    timeLeft: '3 days left',
+    duration: 1000,
+    avgPace: "6'54''"
 };
 
 // กรณีที่ 2: มีเป้าหมาย และทำสำเร็จแล้ว! (Completed) 🏆

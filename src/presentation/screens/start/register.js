@@ -1,8 +1,9 @@
-import { Text, TextInput, View, Pressable, KeyboardAvoidingView, ScrollView, Platform } from "react-native";
+import { Text, TextInput, View, Pressable, KeyboardAvoidingView, ScrollView, Platform, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import NextButton from "../../components/NextButton";
 import AnimatedInput from "../../components/AnimatedInput";
+import { registerUser } from "../../../services/auth";
 
 const Register = ({ navigation }) => {
 
@@ -14,15 +15,20 @@ const Register = ({ navigation }) => {
     const isPasswordValid = password.length >= 8;
     const isEmailValid = /\S+@\S+\.\S+/.test(email);
 
-    const handleNext = () => {
+    const handleNext = async () => {
         if (!isUsernameValid || !isPasswordValid || !isEmailValid) {
-            alert('Please fill in all fields');
+            Alert.alert('Please fill in all fields');
             return;
-        } navigation.navigate('PersernalInfo', {
-            username,
-            password,
-            email
-        });
+        }
+
+        const result = await registerUser({ username, password, email });
+
+        if (result.ok) {
+            Alert.alert("Success", "Registered successfully! Please Login.");
+            navigation.navigate('Login');
+        } else {
+            Alert.alert("Register Failed", result.data.message);
+        }
     };
 
     return (

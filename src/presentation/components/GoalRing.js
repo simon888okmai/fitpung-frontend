@@ -14,8 +14,8 @@ const GoalRing = ({
     const radius = (size - strokeWidth) / 2;
     const circumference = radius * 2 * Math.PI;
 
-    // คำนวณ Progress
-    const progress = Math.min(Math.max(current / target, 0), 1);
+    // คำนวณ Progress (ป้องกัน target = 0 ที่อาจทำให้เกิด NaN แล้วแสดงผลผิด)
+    const progress = target > 0 ? Math.min(Math.max(current / target, 0), 1) : 0;
     const strokeDashoffset = circumference - (progress * circumference);
 
     // Config สี
