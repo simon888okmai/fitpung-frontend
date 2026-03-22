@@ -56,9 +56,7 @@ export const ACTIVITY_DATA_FULL = {
     ]
 };
 
-// ---------------------------------------------------------
 
-// 2. ข้อมูลแบบว่างเปล่า (Empty State / New User)
 export const ACTIVITY_DATA_EMPTY = {
     user: {
         name: "New Runner",
@@ -90,5 +88,4 @@ export const ACTIVITY_DATA_EMPTY = {
     recentRuns: [] // ยังไม่มีรายการวิ่ง
 };
 
-// เลือก export ตัวใดตัวหนึ่งเป็น default เพื่อให้เรียกใช้ง่ายๆ
 export default ACTIVITY_DATA_FULL;

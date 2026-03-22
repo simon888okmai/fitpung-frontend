@@ -1,20 +1,22 @@
 import { View, Text } from "react-native";
 
-const Graph = () => {
-    // ข้อมูลจำลอง 7 วัน (จันทร์ - อาทิตย์)
-    // value: จำนวน km ที่วิ่งได้
-    const weeklyData = [
-        { day: 'M', value: 0 },   // Mon
-        { day: 'T', value: 20 },   // Tue
-        { day: 'W', value: 0 },   // Wed
-        { day: 'T', value: 0 },   // Thu
-        { day: 'F', value: 4 },   // Fri (สมมติว่าวิ่งวันนี้)
-        { day: 'S', value: 0 },   // Sat
-        { day: 'S', value: 0 },   // Sun
+const Graph = ({ data = [] }) => {
+
+    const defaultData = [
+        { day: 'M', value: 0 },
+        { day: 'T', value: 0 },
+        { day: 'W', value: 0 },
+        { day: 'T', value: 0 },
+        { day: 'F', value: 0 },
+        { day: 'S', value: 0 },
+        { day: 'S', value: 0 },
     ];
 
-    // กำหนดค่าสูงสุดของกราฟ (Y-Axis Max)
-    const MAX_VAL = 20;
+    const weeklyData = data && data.length === 7 ? data : defaultData;
+
+    const values = weeklyData.map(item => item.value || 0);
+    const maxVal = Math.max(...values, 5);
+    const MAX_VAL = Math.ceil(maxVal / 5) * 5; // Round to nearest 5 for cleaner labels
 
     return (
         <View className="mb-10">
@@ -31,7 +33,7 @@ const Graph = () => {
                                 <View
                                     className={`w-[8px] rounded-t-sm ${item.value > 0 ? 'bg-[#B1FC30]/90 shadow-sm shadow-[#B1FC30]' : 'bg-white/10'}`}
                                     style={{
-                                        // คำนวณความสูงตาม % (เช่นวิ่ง 5km จาก max 10km = สูง 50%)
+
                                         height: `${(item.value / MAX_VAL) * 100}%`
                                     }}
                                 />

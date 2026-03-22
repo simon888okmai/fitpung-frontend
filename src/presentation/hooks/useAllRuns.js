@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchAllRuns } from '../../services/activity';
+import { fetchAllRuns } from '../../services/activityService';
 import { formatDuration, formatPace, formatDate, formatTime } from '../../utils/formatters';
 
 export const useAllRuns = () => {

@@ -18,7 +18,7 @@ const AnimatedInput = ({
     isSecure = false, // รับค่ามาว่าเป็นช่องรหัสผ่านหรือไม่
     iconDefault = "text-outline"
 }) => {
-    // State สำหรับสลับโหมดลูกตา (True = เห็นรหัส, False = ปิดรหัส)
+
     const [showPassword, setShowPassword] = useState(false);
 
     const progress = useSharedValue(0);
@@ -56,7 +56,7 @@ const AnimatedInput = ({
                     placeholderTextColor="#A2A2A2"
                     value={value}
                     onChangeText={onChangeText}
-                    // 👇 Logic สำคัญ: ถ้าเป็นช่อง Password และยังไม่กดเปิดตา -> ให้ซ่อนตัวอักษร
+
                     secureTextEntry={isSecure && !showPassword}
                     autoCapitalize="none"
                 />
@@ -68,7 +68,7 @@ const AnimatedInput = ({
                         className="ml-2 p-1" // เพิ่มพื้นที่กดนิดหน่อย
                     >
                         <Ionicons
-                            // ถ้าเปิดอยู่ใช้รูป eye, ถ้าปิดอยู่ใช้ eye-off
+
                             name={showPassword ? "eye-outline" : "eye-off-outline"}
                             size={20}
                             color="#A2A2A2"

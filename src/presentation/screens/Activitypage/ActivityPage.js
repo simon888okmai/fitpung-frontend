@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View, ScrollView, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useActivityStats } from '../../hooks/useActivityStats';
 
 import ThisMonth from '../../components/activity_card/ThisMonth';
@@ -12,11 +12,15 @@ import RecentRuns from '../../components/activity_card/RecentRuns';
 const ActivityPage = () => {
     const navigation = useNavigation();
 
-    // 1. เรียกใช้ Hook แทนการใช้ข้อมูล Mock
-    // (Hook นี้จะจัดการดึงข้อมูล + แปลง Format ให้เสร็จสรรพ)
-    const { data, loading, error } = useActivityStats();
 
-    // 2. คำนวณวันเวลาปัจจุบัน (เอาไว้โชว์หัวข้อเดือน)
+    const { data, loading, error, refetch } = useActivityStats();
+
+    useFocusEffect(
+        useCallback(() => {
+            if (refetch) refetch();
+        }, [refetch])
+    );
+
     const now = new Date();
     const thisYear = now.getFullYear();
     const thisMonthIndex = now.getMonth();
@@ -26,7 +30,6 @@ const ActivityPage = () => {
     ];
     const displayMonth = `${monthNames[thisMonthIndex]} ${thisYear}`;
 
-    // 3. แสดง Loading ระหว่างรอข้อมูล
     if (loading) {
         return (
             <View className="flex-1 bg-color justify-center items-center">
@@ -35,7 +38,6 @@ const ActivityPage = () => {
         );
     }
 
-    // 4. แสดง Error หรือ State ไม่มีข้อมูล
     if (error) {
         return (
             <View className="flex-1 bg-color justify-center items-center">
@@ -54,8 +56,8 @@ const ActivityPage = () => {
                 <View className='mb-[20px]'>
                     <ThisMonth
                         month={displayMonth}
-                        // ส่งข้อมูล summary ที่ Hook จัดการมาให้แล้ว
-                        // (Hook ควรแปลง totalTime เป็น string ให้แล้วใน field 'totalTimeDisplay')
+
+
                         stats={{
                             ...data.summary,
                             totalTime: data.summary.totalTimeDisplay // ใช้ค่าที่ format แล้ว

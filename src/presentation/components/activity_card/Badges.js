@@ -1,6 +1,6 @@
 import { View, Text, Image } from 'react-native';
 import { ExpandIcon } from '../../../../assets/icons/Icon';
-// เช็ค path รูปให้ถูกนะครับ
+
 const trophyImage = require('../../../../assets/images/trophee.png');
 
 const Badges = ({ data }) => {

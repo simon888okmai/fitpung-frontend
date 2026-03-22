@@ -30,7 +30,11 @@ const RecentRuns = ({ runs }) => {
             </View>
             <View className="gap-y-[15px]">
                 {runs?.map((run) => (
-                    <RunCard key={run.id} data={run} />
+                    <RunCard
+                        key={run.id}
+                        data={run}
+                        onPress={() => navigation.navigate('RunHistoryDetailScreen', { runId: run.id })}
+                    />
                 ))}
             </View>
         </View>

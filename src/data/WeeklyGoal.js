@@ -1,4 +1,4 @@
-// กรณีที่ 1: มีเป้าหมาย และกำลังทำอยู่ (On Track) 🟢
+
 export const WEEKLY_GOAL_ACTIVE = {
     hasGoal: true,       // ตัวเช็คว่ามีเป้าไหม
     current: 500,       // ระยะที่วิ่งได้
@@ -12,7 +12,6 @@ export const WEEKLY_GOAL_ACTIVE = {
     avgPace: "6'54''"
 };
 
-// กรณีที่ 2: มีเป้าหมาย และทำสำเร็จแล้ว! (Completed) 🏆
 export const WEEKLY_GOAL_COMPLETED = {
     hasGoal: true,
     current: 52.0,       // วิ่งเกินเป้า
@@ -24,7 +23,6 @@ export const WEEKLY_GOAL_COMPLETED = {
     timeLeft: 'Completed'
 };
 
-// กรณีที่ 3: มีเป้าหมาย แต่ตามหลังอยู่ (At Risk) ⚠️
 export const WEEKLY_GOAL_AT_RISK = {
     hasGoal: true,
     current: 5.0,        // วิ่งได้น้อยมาก
@@ -36,7 +34,6 @@ export const WEEKLY_GOAL_AT_RISK = {
     timeLeft: '1 day left'
 };
 
-// กรณีที่ 4: ยังไม่มีเป้าหมาย (Empty State) ⚪️
 export const WEEKLY_GOAL_EMPTY = {
     hasGoal: false,      // ไม่มีเป้า
     current: 0,

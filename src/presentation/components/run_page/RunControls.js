@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, SafeAreaView, StyleSheet, View, Text } from 'react-native';
+import { TouchableOpacity, SafeAreaView, StyleSheet, View, Text, Alert } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 export const BackButton = ({ onPress }) => (
@@ -13,22 +13,37 @@ export const BackButton = ({ onPress }) => (
     </SafeAreaView>
 );
 
-export const ActionButtons = ({ onStartPress, onLocationPress, onShoePress }) => (
+export const ActionButtons = ({ onStartPress, onLocationPress, onShoePress, isTracking, onFinishPress, hasStarted }) => (
     <View style={styles.actionsContainer}>
-        {/* Shoe Selection Button */}
-        <TouchableOpacity
-            onPress={onShoePress}
-            className="bg-[#1C1C1E] w-16 h-16 rounded-full justify-center items-center shadow-lg border border-white/10"
-        >
-            <MaterialCommunityIcons name="shoe-sneaker" size={32} color="#FFFFFF" />
-        </TouchableOpacity>
+        {/* Shoe Selection OR Finish Button (Persists if session started) */}
+        {hasStarted ? (
+            <TouchableOpacity
+                onPress={() => Alert.alert("Hold to Finish", "Please press and hold for 3 seconds to finish your run.")}
+                onLongPress={onFinishPress}
+                delayLongPress={3000}
+                className="bg-red-500 w-16 h-16 rounded-full justify-center items-center shadow-lg"
+            >
+                <Ionicons name="stop" size={28} color="white" />
+            </TouchableOpacity>
+        ) : (
+            <TouchableOpacity
+                onPress={onShoePress}
+                className="bg-[#1C1C1E] w-16 h-16 rounded-full justify-center items-center shadow-lg border border-white/10"
+            >
+                <MaterialCommunityIcons name="shoe-sneaker" size={32} color="#FFFFFF" />
+            </TouchableOpacity>
+        )}
 
-        {/* Start Button */}
+        {/* Start / Pause Button */}
         <TouchableOpacity
             onPress={onStartPress}
-            className="bg-[#B1FC30] w-24 h-24 rounded-full justify-center items-center shadow-xl shadow-primary/50"
+            className={`${isTracking ? 'bg-white' : 'bg-[#B1FC30]'} w-24 h-24 rounded-full justify-center items-center shadow-xl shadow-primary/50`}
         >
-            <Text className="text-black font-line-xbold text-xl uppercase italic">Start</Text>
+            {isTracking ? (
+                <Ionicons name="pause" size={40} color="black" />
+            ) : (
+                <Text className="text-black font-line-xbold text-xl uppercase italic">Start</Text>
+            )}
         </TouchableOpacity>
 
         {/* Center Location Button */}
@@ -51,7 +66,7 @@ const styles = StyleSheet.create({
     },
     actionsContainer: {
         position: 'absolute',
-        bottom: 160, // Adjusted further up to prevent overlap with the padded RunStatsCard
+        bottom: 160,
         left: 0,
         right: 0,
         flexDirection: 'row',

@@ -1,4 +1,4 @@
-// src/hooks/useBadges.js
+
 import { useQuery } from '@tanstack/react-query';
 import { fetchBadges } from '../../services/badge';
 

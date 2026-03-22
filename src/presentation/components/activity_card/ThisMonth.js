@@ -16,7 +16,7 @@ const ThisMonth = ({ month, stats }) => {
             </View>
 
             {currentStreak > 0 ? (
-                // ✅ กรณีมี Streak (แบบเดิม): พื้นหลังเขียว
+
                 <View className="bg-primary rounded-[10px] px-[8px] py-[4px] self-start flex-row items-baseline gap-x-[2px]">
                     <Text className="text-[24px]">🔥</Text>
                     <Text className="text-[18px] font-line-bold text-black">
@@ -24,7 +24,7 @@ const ThisMonth = ({ month, stats }) => {
                     </Text>
                 </View>
             ) : (
-                // ❌ กรณี Streak เป็น 0: พื้นหลังเทา + ข้อความเชียร์
+
                 <View className="bg-[#5e6063] rounded-[10px] px-[15px] py-[6px] self-start flex-row items-baseline gap-x-[2px]">
                     <Text className="text-[24px]">👟</Text>
                     <Text className="text-[16px] font-line-bold text-white">

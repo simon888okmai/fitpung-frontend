@@ -7,7 +7,7 @@ export default function LoadingScreen() {
     const [dots, setDots] = useState(''); // 👈 2. สร้างตัวแปรเก็บจุด
 
     useEffect(() => {
-        // 👇 3. ตั้งเวลาให้ทำงานทุกๆ 500ms (ครึ่งวินาที)
+
         const interval = setInterval(() => {
             setDots(prev => {
                 if (prev.length >= 3) return ''; // ถ้าครบ 3 จุด (. . .) ให้เคลียร์ทิ้ง
@@ -15,7 +15,6 @@ export default function LoadingScreen() {
             });
         }, 500);
 
-        // คืนค่าฟังก์ชันเพื่อล้างเวลาเมื่อหน้านี้ถูกปิด (กัน Memory Leak)
         return () => clearInterval(interval);
     }, []);
 

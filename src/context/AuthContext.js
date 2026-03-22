@@ -1,5 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from 'react-native';
+import { setLogoutHandler } from '../services/authEvent';
 
 export const AuthContext = createContext();
 
@@ -35,6 +37,15 @@ export const AuthProvider = ({ children }) => {
         await AsyncStorage.setItem('isProfileComplete', JSON.stringify(true));
     };
 
+    useEffect(() => {
+        setLogoutHandler(() => {
+            Alert.alert(
+                "Session Expired",
+                "Your session has expired. Please login again.",
+                [{ text: "OK", onPress: () => logout() }]
+            );
+        });
+    }, []);
 
     const isLoggedIn = async () => {
         try {

@@ -1,5 +1,4 @@
 
-// 1. แบบมีข้อมูลครบ (Full State)
 export const MOCK_DASHBOARD_FULL = {
     user: {
         name: "Simon",
@@ -24,7 +23,6 @@ export const MOCK_DASHBOARD_FULL = {
     }
 };
 
-// 2. แบบไม่มีข้อมูล (Empty State) สำหรับเทสปุ่มบวก
 export const MOCK_DASHBOARD_EMPTY = {
     user: {
         name: "Simon",

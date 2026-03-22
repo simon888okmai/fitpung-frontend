@@ -7,16 +7,20 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Start from "./presentation/screens/start/Start";
-import Login from "./presentation/screens/start/Login";
-import Register from "./presentation/screens/start/Register";
-import PersernalInfo from "./presentation/screens/start/PersernalInfo";
-import Homepage from "./presentation/screens/Homepage/HomePage";
+import Login from "./presentation/screens/start/login";
+import Register from "./presentation/screens/start/register";
+import PersernalInfo from "./presentation/screens/start/persernalinfo";
+import Homepage from "./presentation/screens/Homepage/homepage";
 import BadgePage from "./presentation/screens/Activitypage/BadgePage";
 import WeeklyGoalPage from "./presentation/screens/Activitypage/WeeklyGoal";
 import AllRunsPage from "./presentation/screens/Activitypage/AllRunsPage";
 import LoadingScreen from "./presentation/components/LoadingScreen";
-
 import AppTabs from "./presentation/navigation/AppTabs";
+import MyShoeScreen from "./presentation/screens/MyShoeScreen/MyShoeScreen";
+import SettingsScreen from "./presentation/screens/SettingsScreen/SettingsScreen";
+import AboutUsScreen from "./presentation/screens/SettingsScreen/AboutUsScreen";
+import ProfileScreen from "./presentation/screens/ProfileScreen/ProfileScreen";
+import RunHistoryDetailScreen from "./presentation/screens/Activitypage/RunHistoryDetailScreen";
 
 import { AuthContext, AuthProvider } from './context/AuthContext';
 
@@ -49,6 +53,41 @@ const AuthenticatedStack = () => {
       <MainStack.Screen
         name="AllRunsPage"
         component={AllRunsPage}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <MainStack.Screen
+        name="MyShoeScreen"
+        component={MyShoeScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <MainStack.Screen
+        name="SettingsScreen"
+        component={SettingsScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <MainStack.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <MainStack.Screen
+        name="AboutUsScreen"
+        component={AboutUsScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <MainStack.Screen
+        name="RunHistoryDetailScreen"
+        component={RunHistoryDetailScreen}
         options={{
           headerShown: false,
         }}

@@ -2,16 +2,18 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
-import Homepage from '../screens/Homepage/HomePage';
+import Homepage from '../screens/Homepage/homepage';
 import ActivityPage from '../screens/Activitypage/ActivityPage';
 import RunPage from '../screens/RunPage/RunPage';
 import { HomeIcon, RunIcon, ActivityIcon } from '../../../assets/icons/Icon';
 
 import { View, Text, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
 export default function AppTabs() {
+    const navigation = useNavigation();
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -30,12 +32,12 @@ export default function AppTabs() {
                 },
                 headerTintColor: '#FFFFFF',
                 headerLeft: () => (
-                    <TouchableOpacity onPress={() => console.log('Profile pressed')} style={{ marginLeft: 22 }}>
+                    <TouchableOpacity onPress={() => navigation.navigate('ProfileScreen')} style={{ marginLeft: 22 }}>
                         <Ionicons name="person-circle-outline" size={30} color="#FFFFFF" />
                     </TouchableOpacity>
                 ),
                 headerRight: () => (
-                    <TouchableOpacity onPress={() => console.log('Settings pressed')} style={{ marginRight: 22 }}>
+                    <TouchableOpacity onPress={() => navigation.navigate('SettingsScreen')} style={{ marginRight: 22 }}>
                         <Ionicons name="settings-outline" size={24} color="#FFFFFF" />
                     </TouchableOpacity>
                 ),

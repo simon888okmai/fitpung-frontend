@@ -1,4 +1,4 @@
-// src/presentation/screens/Homepage/components/GoalRing.js
+
 
 import React from 'react';
 import { View } from 'react-native';
@@ -10,15 +10,13 @@ const GoalRing = ({
     size = 80,       // ปรับขนาดได้ตามต้องการ
     strokeWidth = 20 // ความหนาเส้น
 }) => {
-    // คำนวณรัศมี (แบบปกติ ไม่ต้องเผื่อแสง)
+
     const radius = (size - strokeWidth) / 2;
     const circumference = radius * 2 * Math.PI;
 
-    // คำนวณ Progress (ป้องกัน target = 0 ที่อาจทำให้เกิด NaN แล้วแสดงผลผิด)
     const progress = target > 0 ? Math.min(Math.max(current / target, 0), 1) : 0;
     const strokeDashoffset = circumference - (progress * circumference);
 
-    // Config สี
     const neonColor = "#B1FC30";
     const bgColor = "#333333";
 

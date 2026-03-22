@@ -20,6 +20,15 @@ export const useWeeklyGoal = () => {
 
                 const goal = response.data;
 
+                const datePart = goal.endDate.includes('T') ? goal.endDate.split('T')[0] : goal.endDate.split(' ')[0];
+                const [year, month, day] = datePart.split('-');
+                const endDateLocal = new Date(year, month - 1, day, 23, 59, 59);
+                const now = new Date();
+
+                if (now > endDateLocal) {
+                    return { hasGoal: false };
+                }
+
                 return {
                     id: goal.id,
                     current: goal.currentKm || 0,
@@ -29,7 +38,11 @@ export const useWeeklyGoal = () => {
                     endDate: goal.endDate,
                     isCompleted: goal.status === 'COMPLETED' || (goal.currentKm >= goal.targetKm),
                     status: goal.status,
-                    hasGoal: true
+                    hasGoal: true,
+                    duration: goal.duration || 0,
+                    avgPace: goal.avgPace || 0,
+                    burn: goal.burn || 0,
+                    graphData: goal.graphData || []
                 };
             } catch (err) {
                 if (err.message === "Unauthorized") {

@@ -9,12 +9,25 @@ export const useHomeData = () => {
             const rawData = await fetchHomeData();
 
             if (rawData.weeklyGoal) {
-                rawData.weeklyGoal = {
-                    ...rawData.weeklyGoal,
-                    current: rawData.weeklyGoal.currentKm || 0,
-                    target: rawData.weeklyGoal.targetKm || 0,
-                    unit: 'km'
-                };
+                if (rawData.weeklyGoal && rawData.weeklyGoal.endDate) {
+                    const datePart = rawData.weeklyGoal.endDate.includes('T') ? rawData.weeklyGoal.endDate.split('T')[0] : rawData.weeklyGoal.endDate.split(' ')[0];
+                    const [year, month, day] = datePart.split('-');
+                    const endDateLocal = new Date(year, month - 1, day, 23, 59, 59);
+                    const now = new Date();
+
+                    if (now > endDateLocal) {
+                        rawData.weeklyGoal = null;
+                    }
+                }
+
+                if (rawData.weeklyGoal) {
+                    rawData.weeklyGoal = {
+                        ...rawData.weeklyGoal,
+                        current: rawData.weeklyGoal.currentKm || rawData.weeklyGoal.current || 0,
+                        target: rawData.weeklyGoal.targetKm || rawData.weeklyGoal.target || 0,
+                        unit: 'km'
+                    };
+                }
             }
 
             if (rawData.lastRun) {

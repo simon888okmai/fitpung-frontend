@@ -1,5 +1,6 @@
 import React, { useContext, useState, useCallback } from 'react';
-import { View, Text, Pressable, ScrollView, RefreshControl, ActivityIndicator } from 'react-native';
+import { View, Text, Pressable, ScrollView, RefreshControl, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useHomeData } from '../../hooks/useHomePage';
 
 import WeeklyGoal from '../../components/homescreen_card/WeeklyGoal';
@@ -9,11 +10,10 @@ import ActiveShoe from '../../components/homescreen_card/ActiveShoe';
 import { AuthContext } from '../../../context/AuthContext';
 
 const Homepage = () => {
-    // 1. เรียก Hook (เหมือนสั่งข้าว ได้ของเลย)
+    const navigation = useNavigation();
     const { data, loading, error, refetch } = useHomeData();
     const { logout } = useContext(AuthContext);
 
-    // 2. สร้างระบบ Pull to Refresh (รูดเพื่อรีเฟรช)
     const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = useCallback(async () => {
@@ -22,7 +22,12 @@ const Homepage = () => {
         setRefreshing(false);
     }, [refetch]);
 
-    // 3. Loading State (ตอนโหลดครั้งแรก)
+    useFocusEffect(
+        useCallback(() => {
+            if (refetch) refetch();
+        }, [refetch])
+    );
+
     if (loading && !refreshing) {
         return (
             <View className="flex-1 bg-color justify-center items-center">
@@ -31,7 +36,6 @@ const Homepage = () => {
         );
     }
 
-    // 4. Error State (เน็ตหลุด หรือ Backend พัง)
     if (error) {
         return (
             <View className="flex-1 bg-color justify-center items-center">
@@ -43,7 +47,6 @@ const Homepage = () => {
         );
     }
 
-    // ถ้าไม่มีข้อมูล
     if (!data) return null;
 
     return (
@@ -64,22 +67,34 @@ const Homepage = () => {
                 {/* Cards Section */}
                 {/* ส่ง data ที่ได้จาก API เข้าไปใน Component เดิม */}
 
-                <WeeklyGoal data={data.weeklyGoal} />
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('WeeklyGoalPage')}
+                    activeOpacity={0.8}
+                >
+                    <WeeklyGoal data={data.weeklyGoal} />
+                </TouchableOpacity>
 
                 {/* เช็คก่อนว่ามีข้อมูลวิ่งล่าสุดไหม */}
-                <LastRun data={data.lastRun} />
+                <TouchableOpacity
+                    onPress={() => {
+                        if (data.lastRun?.id) {
+                            navigation.navigate('RunHistoryDetailScreen', { id: data.lastRun.id });
+                        } else {
+                            navigation.navigate('AllRunsPage');
+                        }
+                    }}
+                    activeOpacity={0.8}
+                >
+                    <LastRun data={data.lastRun} />
+                </TouchableOpacity>
 
                 {/* เช็คก่อนว่ามีรองเท้า Default ไหม */}
-
-                <ActiveShoe data={data.activeShoe} />
-
-                {/* Logout Button */}
-                <Pressable
-                    onPress={logout}
-                    className="mt-8 bg-[#FF4444] py-3 px-6 rounded-2xl self-start shadow-md mb-10"
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('MyShoeScreen')}
+                    activeOpacity={0.8}
                 >
-                    <Text className="text-white font-line-bold text-lg">Logout</Text>
-                </Pressable>
+                    <ActiveShoe data={data.activeShoe} />
+                </TouchableOpacity>
 
             </View>
         </ScrollView>

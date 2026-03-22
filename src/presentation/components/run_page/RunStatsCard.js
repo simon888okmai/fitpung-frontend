@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const RunStatsCard = ({ distance = "0.00", status = "Running", time = "00:00:00" }) => {
+const RunStatsCard = ({ distance = "0.00", status = "Running", time = "00:00:00", calories = "0" }) => {
     return (
         <View style={styles.container}>
             <View className="bg-[#1C1C1E] p-10 rounded-[30px] w-full shadow-2xl border border-white/10">
@@ -22,6 +22,8 @@ const RunStatsCard = ({ distance = "0.00", status = "Running", time = "00:00:00"
                         <Text className="text-primary text-xs mt-1">Time</Text>
                     </View>
                 </View>
+
+
 
                 <TouchableOpacity style={styles.expandButton}>
                     <Ionicons name="expand-outline" size={16} color="#B1FC30" />

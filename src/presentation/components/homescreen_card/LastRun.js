@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import AddButton from '../AddButton';
 
 const LastRun = ({ data }) => {
-    // กรณีไม่มีข้อมูล (เผื่อไว้)
+
     if (!data) return (
         <View className="flex-1 flex-col px-[22px] py-[14px] bg-[#1E1E1E] rounded-[20px] shadow-md shadow-black">
             <View className="flex-col">

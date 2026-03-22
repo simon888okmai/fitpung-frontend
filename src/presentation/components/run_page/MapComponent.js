@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { StyleSheet, Platform } from 'react-native';
+import MapView, { PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
 
 const darkMapStyle = [
     {
@@ -105,12 +105,25 @@ const darkMapStyle = [
     }
 ];
 
-const MapComponent = React.forwardRef(({ location }, ref) => {
+const MapComponent = React.forwardRef(({ location, routePath = [] }, ref) => {
+
+    const segments = [];
+    let currentSegment = [];
+    for (const point of routePath) {
+        if (point.type === 'break') {
+            if (currentSegment.length > 1) segments.push(currentSegment);
+            currentSegment = [];
+        } else {
+            currentSegment.push(point);
+        }
+    }
+    if (currentSegment.length > 1) segments.push(currentSegment);
+
     return (
         <MapView
             ref={ref}
             style={styles.map}
-            provider={PROVIDER_GOOGLE}
+            provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
             customMapStyle={darkMapStyle}
             initialRegion={{
                 latitude: location?.latitude || 13.7563,
@@ -122,7 +135,18 @@ const MapComponent = React.forwardRef(({ location }, ref) => {
             followsUserLocation={true}
             showsMyLocationButton={false}
             showsCompass={false}
-        />
+        >
+            {segments.map((segment, index) => (
+                <Polyline
+                    key={`segment-${index}`}
+                    coordinates={segment}
+                    strokeColor="#B1FC30"
+                    strokeWidth={6}
+                    lineJoin="round"
+                    lineCap="round"
+                />
+            ))}
+        </MapView>
     );
 });
 

@@ -10,15 +10,13 @@ import { useBadges } from '../../hooks/useBadges';
 const BadgePage = () => {
     const navigation = useNavigation();
 
-    // ✅ 1. ดึงข้อมูลจาก Hook
-    // (เปลี่ยนชื่อ data -> badges เพื่อให้อ่านง่าย)
+
     const { data: badges, isLoading, error, refetch } = useBadges();
 
     const [selectedBadge, setSelectedBadge] = useState(null);
     const [isModalVisible, setModalVisible] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
 
-    // ฟังก์ชัน Pull to Refresh
     const onRefresh = useCallback(async () => {
         setRefreshing(true);
         await refetch();
@@ -35,7 +33,6 @@ const BadgePage = () => {
         setSelectedBadge(null);
     };
 
-    // ⏳ Loading State
     if (isLoading && !refreshing) {
         return (
             <View className="flex-1 bg-color justify-center items-center">
@@ -44,7 +41,6 @@ const BadgePage = () => {
         );
     }
 
-    // ❌ Error State
     if (error) {
         return (
             <View className="flex-1 bg-color justify-center items-center">
@@ -87,7 +83,7 @@ const BadgePage = () => {
                 className="flex-1 px-[22px]"
                 contentContainerStyle={{ paddingBottom: 40, paddingTop: 20 }}
                 showsVerticalScrollIndicator={false}
-                // ✅ เพิ่ม Pull to Refresh เผื่ออยากกดดูเหรียญใหม่ทันที
+
                 refreshControl={
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#bef264" />
                 }

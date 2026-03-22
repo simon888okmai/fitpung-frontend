@@ -7,6 +7,7 @@ import GoalRing from '../../components/GoalRing';
 import GoalPicker from '../../components/weekly_page/GoalPicker';
 import Graph from '../../components/weekly_page/Graph';
 import LoadingScreen from '../../components/LoadingScreen';
+import { formatDuration, formatPace } from '../../../utils/formatters';
 
 const WeeklyGoalPage = () => {
     const navigation = useNavigation();
@@ -68,25 +69,24 @@ const WeeklyGoalPage = () => {
                         <View className="bg-primary w-full h-[2px]"></View>
                         <View className="flex-col gap-y-[20px]">
                             <Text className="font-line-xbold text-primary text-[24px]">This Week</Text>
-                            <Graph />
+                            <Graph data={data?.graphData} />
                             <Text className="font-line-xbold text-primary text-[24px]">Stats,<Text className="font-line-bold text-white text-[24px]"> Week total</Text></Text>
                             <View className="flex-col gap-y-[12px]">
                                 <View className="flex-row gap-x-[12px]">
                                     <View className="bg-[#1C1C1E] rounded-[16px] p-4 flex-1 items-center justify-center min-h-[100px] shadow-lg shadow-black/50">
                                         <Text className="text-[16px] font-line-bold mb-1 text-primary">Distance</Text>
-                                        <Text className="text-white text-[32px] font-line-bold">{data?.current || 0}</Text>
+                                        <Text className="text-white text-[32px] font-line-bold">{typeof data?.current === 'number' ? data.current.toFixed(2) : (data?.current || 0)}</Text>
                                         <Text className="text-[16px] font-line-bold text-primary">km</Text>
                                     </View>
                                     <View className="bg-[#1C1C1E] rounded-[16px] p-4 flex-1 items-center justify-center min-h-[100px] shadow-lg shadow-black/50">
                                         <Text className="text-[16px] font-line-bold mb-1 text-primary">Duration</Text>
-                                        <Text className="text-white text-[32px] font-line-bold">{data?.duration || '0:00'}</Text>
-                                        <Text className="text-[16px] font-line-bold text-primary">hours</Text>
+                                        <Text className="text-white text-[32px] font-line-bold">{formatDuration(data?.duration || 0)}</Text>
                                     </View>
                                 </View>
                                 <View className="flex-row gap-x-[12px]">
                                     <View className="bg-[#1C1C1E] rounded-[16px] p-4 flex-1 items-center justify-center min-h-[100px] shadow-lg shadow-black/50">
                                         <Text className="text-[16px] font-line-bold mb-1 text-primary">Avg. Pace</Text>
-                                        <Text className="text-white text-[32px] font-line-bold">{data?.avgPace || '0:00'}</Text>
+                                        <Text className="text-white text-[32px] font-line-bold">{formatPace(data?.avgPace || 0)}</Text>
                                     </View>
                                     <View className="bg-[#1C1C1E] rounded-[16px] p-4 flex-1 items-center justify-center min-h-[100px] shadow-lg shadow-black/50">
                                         <Text className="text-[16px] font-line-bold mb-1 text-primary">Calories</Text>

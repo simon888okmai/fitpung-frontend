@@ -4,7 +4,7 @@ import Svg, { Path } from 'react-native-svg';
 
 const AddButton = ({ size = 55 }) => {
     return (
-        // 1. วงกลมสีเขียว (Container)
+
         <View
             style={{ width: size, height: size }}
             className="justify-center items-center"
