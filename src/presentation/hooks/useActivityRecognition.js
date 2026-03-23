@@ -5,7 +5,7 @@ import { harModelService } from '../../services/ai/HarModelService';
 const WINDOW_SIZE = 100; // 50Hz * 2 seconds
 
 export const useActivityRecognition = (isTracking) => {
-    const [currentActivity, setCurrentActivity] = useState("Stationary");
+    const [currentActivity, setCurrentActivity] = useState("IDLE");
     const bufferRef = useRef([]);
     const subscription = useRef(null);
 

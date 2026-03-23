@@ -42,3 +42,51 @@ export const formatTime = (totalSeconds) => {
         .map(v => v < 10 ? "0" + v : v)
         .join(":");
 };
+
+/**
+ * Calculates kilometer splits from a routePath for summarizing Pace per kilometer.
+ * @param {Array} routePath 
+ * @returns {Array} List of splits: [{ km: 1, durationSeconds: 330, pace: '05:30' }]
+ */
+export const calculateSplits = (routePath = []) => {
+    if (!routePath || routePath.length === 0) return [];
+
+    const splits = [];
+    let accumulatedDistance = 0;
+    let nextMarkerKm = 1.0;
+    let lastKmTimestamp = routePath[0].timestamp;
+
+    for (let i = 1; i < routePath.length; i++) {
+        const p1 = routePath[i - 1];
+        const p2 = routePath[i];
+
+        if (p1.latitude && p1.longitude && p2.latitude && p2.longitude && p1.type !== 'break') {
+            const d = calculateDistance(p1.latitude, p1.longitude, p2.latitude, p2.longitude);
+            accumulatedDistance += d;
+
+            if (accumulatedDistance >= nextMarkerKm) {
+                const durationMs = p2.timestamp - lastKmTimestamp;
+                const durationSec = Math.max(1, Math.floor(durationMs / 1000));
+
+                const paceMin = Math.floor(durationSec / 60);
+                const paceSec = durationSec % 60;
+                const paceStr = `${paceMin}:${paceSec < 10 ? '0' + paceSec : paceSec}`;
+
+                splits.push({
+                    km: Math.floor(nextMarkerKm),
+                    durationSeconds: durationSec,
+                    pace: paceStr,
+                });
+
+                lastKmTimestamp = p2.timestamp;
+                nextMarkerKm += 1.0;
+            }
+        } else if (p2.type === 'break' || !p1.timestamp) {
+            // Adjust if break/pause is detected, reset time tracking to connect next valid gap
+            if (i + 1 < routePath.length) {
+                lastKmTimestamp = routePath[i + 1].timestamp;
+            }
+        }
+    }
+    return splits;
+};

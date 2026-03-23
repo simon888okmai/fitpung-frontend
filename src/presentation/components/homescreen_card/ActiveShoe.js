@@ -14,9 +14,9 @@ const ActiveShoe = ({ data }) => {
         >
             <View className="flex-row gap-y-[15px]">
                 <Text className="text-[24px]">👟 </Text>
-                <Text className="text-primary font-line-bold text-[20px]">My Shoe</Text>
+                <Text className="text-primary font-line-bold text-[20px]">My Shoes</Text>
             </View>
-            <Text className="text-white font-line-bold text-[20px] pt-[15px]">No Shoe</Text>
+            <Text className="text-white font-line-bold text-[20px] pt-[15px]">No Shoes</Text>
             <View className="flex-1 items-center justify-center py-4">
                 <AddButton />
             </View>
@@ -33,7 +33,7 @@ const ActiveShoe = ({ data }) => {
         >
             <View className="flex-row gap-y-[15px]">
                 <Text className="text-[24px]">👟 </Text>
-                <Text className="text-primary font-line-bold text-[20px]">My Shoe</Text>
+                <Text className="text-primary font-line-bold text-[20px]">My Shoes</Text>
             </View>
             <Text className="text-white font-line-bold text-[18px]">{data.name}</Text>
             <View className="flex-row items-baseline">

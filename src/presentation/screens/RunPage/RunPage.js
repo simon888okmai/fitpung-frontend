@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { View, StyleSheet, StatusBar, Alert, AppState, Text } from 'react-native';
+import { View, StyleSheet, StatusBar, Alert, AppState, Text, TouchableOpacity } from 'react-native';
 import * as Location from 'expo-location';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -165,16 +165,7 @@ const RunPage = () => {
                 const act = latestActivity.current;
 
                 if (loc) {
-
-                    setRoutePath(prev => [
-                        ...prev,
-                        {
-                            latitude: loc.latitude,
-                            longitude: loc.longitude,
-                            type: act,
-                            timestamp: Date.now()
-                        }
-                    ]);
+                    let hasMoved = false;
 
                     if (lastLocation.current) {
                         const d = calculateDistance(
@@ -183,19 +174,38 @@ const RunPage = () => {
                             loc.latitude,
                             loc.longitude
                         );
-                        if (d > 0.002) { // 2 meters GPS drift noise filter
+                        if (d > 0.003) { // Use 3 meters to further reduce coordinate spam
                             setTotalDistance(prev => {
                                 const newDistance = prev + d;
                                 setCalories(calculateCalories(newDistance, latestWeight.current));
                                 return newDistance;
                             });
-
                             lastLocation.current = loc;
+                            hasMoved = true;
                         }
                     } else {
-
                         lastLocation.current = loc;
+                        hasMoved = true;
                     }
+
+                    // Append ONLY if actually moved OR activity state updated (keeps line colored)
+                    setRoutePath(prev => {
+                        const lastPoint = prev.length > 0 ? prev[prev.length - 1] : null;
+                        const activityChanged = lastPoint && lastPoint.type !== act;
+
+                        if (hasMoved || activityChanged || prev.length === 0) {
+                            return [
+                                ...prev,
+                                {
+                                    latitude: loc.latitude,
+                                    longitude: loc.longitude,
+                                    type: act,
+                                    timestamp: Date.now()
+                                }
+                            ];
+                        }
+                        return prev; // Saves RAM by not appending duplicates
+                    });
                 }
             }, 1000);
         } else {
@@ -319,7 +329,7 @@ const RunPage = () => {
 
         const cleanRoutePath = (savedData.routePath || [])
             .filter(p => p.type !== 'break' && p.latitude && p.longitude)
-            .map(({ latitude, longitude, timestamp }) => ({ latitude, longitude, timestamp }));
+            .map(({ latitude, longitude, timestamp, type }) => ({ latitude, longitude, timestamp, type }));
 
         const finalData = {
             type: 'Running',

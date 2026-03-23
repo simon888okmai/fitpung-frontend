@@ -30,14 +30,14 @@ class HarModelService {
 
         if (!this.isReady || !this.model) {
 
-            return "Stationary";
+            return "IDLE";
         }
         try {
             const inputData = new Float32Array(preprocessedData);
             const result = await this.model.run([inputData]);
 
             const probs = result[0];
-            const classes = ["Stationary", "Running", "Walking"];
+            const classes = ["IDLE", "RUN", "WALK"];
 
             let maxIdx = 0;
             let maxProb = probs[0];
@@ -51,7 +51,7 @@ class HarModelService {
             return classes[maxIdx];
         } catch (err) {
             console.error("Prediction error:", err);
-            return "Stationary";
+            return "IDLE";
         }
     }
 }

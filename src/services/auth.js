@@ -12,6 +12,7 @@ export const registerUser = async (userData) => {
         const json = await response.json();
         return { ok: response.ok, data: json };
     } catch (error) {
+        console.error("registerUser Error:", error);
         return { ok: false, data: { message: "Cannot connect to server" } };
     }
 }
@@ -28,6 +29,7 @@ export const loginUser = async (authUser) => {
         const json = await response.json();
         return { ok: response.ok, data: json };
     } catch (error) {
+        console.error("loginUser Error:", error);
         return { ok: false, data: { message: "Cannot connect to server" } };
     }
 }
@@ -45,6 +47,7 @@ export const completeProfileInfo = async (token, profileData) => {
         const json = await response.json();
         return { ok: response.ok, data: json };
     } catch (error) {
+        console.error("completeProfileInfo Error:", error);
         return { ok: false, data: { message: "Cannot connect to server" } };
     }
 }

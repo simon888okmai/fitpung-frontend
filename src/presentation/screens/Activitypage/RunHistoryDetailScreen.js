@@ -5,7 +5,38 @@ import { Ionicons } from '@expo/vector-icons';
 import { useActivityDetail } from '../../hooks/useActivityDetail';
 import HistoricalMap from '../../components/history_detail/HistoricalMap';
 import HistoryStatsBoard from '../../components/history_detail/HistoryStatsBoard';
+import { calculateSplits } from '../../../utils/trackingUtils';
 
+const SplitsTable = ({ routePath = [] }) => {
+    const splits = calculateSplits(routePath);
+
+    if (splits.length === 0) return null;
+
+    return (
+        <View className="mt-6 px-[22px]">
+            <Text className="font-line-bold text-[18px] text-white mb-3">Milepost Splits</Text>
+            <View className="bg-[#1E1E1E] rounded-2xl p-4">
+                <View className="flex-row justify-between pb-2 border-b border-gray-800 mb-2">
+                    <Text className="text-[#AAAAAA] font-line text-[13px] w-1/3">Kilometer</Text>
+                    <Text className="text-[#AAAAAA] font-line text-[13px] text-center w-1/3">Pace</Text>
+                    <Text className="text-[#AAAAAA] font-line text-[13px] text-right w-1/3">Split Time</Text>
+                </View>
+                {splits.map((s, index) => {
+                    const totalSec = s.durationSeconds;
+                    const min = Math.floor(totalSec / 60);
+                    const sec = totalSec % 60;
+                    return (
+                        <View key={index} className="flex-row justify-between py-3 border-b border-gray-900">
+                            <Text className="text-white font-line-bold text-[15px] w-1/3">{s.km} KM</Text>
+                            <Text className="text-[#B1FC30] font-line-bold text-[15px] text-center w-1/3">{s.pace} /km</Text>
+                            <Text className="text-[#888888] font-line text-[14px] text-right w-1/3">{min}m {sec < 10 ? '0' + sec : sec}s</Text>
+                        </View>
+                    );
+                })}
+            </View>
+        </View>
+    );
+};
 const RunHistoryDetailScreen = () => {
     const navigation = useNavigation();
     const route = useRoute();
@@ -44,6 +75,7 @@ const RunHistoryDetailScreen = () => {
                 <ScrollView showsVerticalScrollIndicator={false} className="flex-1" bounces={false} contentContainerStyle={{ paddingBottom: 40 }}>
                     <HistoricalMap routePath={detailData?.routePath} />
                     <HistoryStatsBoard data={detailData} />
+                    <SplitsTable routePath={detailData?.routePath} />
                 </ScrollView>
             )}
         </SafeAreaView>

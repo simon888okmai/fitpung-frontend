@@ -30,17 +30,33 @@ const HistoricalMap = ({ routePath = [] }) => {
 
     const segments = [];
     let currentSegment = [];
+    let lastType = null;
+
     for (let i = 0; i < validCoords.length; i++) {
-        if (i > 0 && validCoords[i].timestamp && validCoords[i - 1].timestamp) {
-            const gap = validCoords[i].timestamp - validCoords[i - 1].timestamp;
+        const point = validCoords[i];
+        const currentType = point.type || 'RUN';
+
+        if (i > 0 && validCoords[i - 1].timestamp && point.timestamp) {
+            const gap = point.timestamp - validCoords[i - 1].timestamp;
             if (gap > 10000) { // 10 seconds gap = pause was used
-                if (currentSegment.length > 1) segments.push(currentSegment);
+                if (currentSegment.length > 1) segments.push({ points: currentSegment, type: lastType });
                 currentSegment = [];
+                lastType = null;
             }
         }
-        currentSegment.push(validCoords[i]);
+
+        if (lastType && currentType !== lastType) {
+            if (currentSegment.length > 0) {
+                currentSegment.push(point); // Seamless connection
+                segments.push({ points: currentSegment, type: lastType });
+            }
+            currentSegment = [point];
+        } else {
+            currentSegment.push(point);
+        }
+        lastType = currentType;
     }
-    if (currentSegment.length > 1) segments.push(currentSegment);
+    if (currentSegment.length > 1) segments.push({ points: currentSegment, type: lastType });
 
     if (validCoords.length === 0) {
         return <View className="h-[350px] w-full bg-[#1E1E1E] rounded-b-[30px] shadow-md shadow-black" />;
@@ -76,15 +92,22 @@ const HistoricalMap = ({ routePath = [] }) => {
                 onLayout={fitCameraToRoute}
                 customMapStyle={customDarkMapStyle}
             >
-                {segments.map((segment, index) => (
-                    <Polyline
-                        key={`hist-segment-${index}`}
-                        coordinates={segment}
-                        strokeColor="#B1FC30"
-                        strokeWidth={5}
-                        lineJoin="round"
-                    />
-                ))}
+                {segments.map((segment, index) => {
+                    const colorMap = {
+                        'RUN': '#B1FC30', // Neon Green
+                        'WALK': '#FFE600', // Yellow
+                        'IDLE': '#999999', // Greyish
+                    };
+                    return (
+                        <Polyline
+                            key={`hist-segment-${index}`}
+                            coordinates={segment.points}
+                            strokeColor={colorMap[segment.type] || '#B1FC30'}
+                            strokeWidth={5}
+                            lineJoin="round"
+                        />
+                    );
+                })}
                 <Marker coordinate={startPt} title="Start" pinColor="green" />
                 {validCoords.length > 1 && (
                     <Marker coordinate={endPt} title="End" pinColor="red" />
